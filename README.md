@@ -1,2 +1,2 @@
 # FDMVS
-Figure data mining visualization system.
+Figure_Data_Mining_Visualization_System.
