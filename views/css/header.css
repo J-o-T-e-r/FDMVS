@@ -1,0 +1,119 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+li{
+    list-style:none;
+}
+input{
+    outline: none;
+}
+#header-ct{
+    display: flex;
+    justify-content: center;
+    height: 60px;
+    width: 100%;
+    border-bottom: 1px solid #f0f0f0;
+  
+    
+}
+#header{
+    width: 66%;
+    height: 60px;
+  
+    display: flex;
+    justify-content: space-between;
+}
+
+#logo{
+    width: 100px;
+    height: 40px;
+    margin-top: 10px;
+    border: 1px solid black;
+}
+
+#search-ct{
+    width: 36%;
+    height: 40px;
+    background-color:transparent;
+    border:1px solid #7b7b7b;
+    margin-left: 2%;
+    border-radius: 20px;
+    margin-top: 10px;
+    position: relative;
+    left: 20px;
+    transition: all .3s ease-out;
+}
+
+#search-ct:hover{
+    border:1px solid #bc8af3;
+}
+#search{
+    height: 30px;
+    width: 80%;
+    font-size: 14px;
+    border: 0;
+    background-color: transparent;
+    line-height: 40px;
+    left: 4%;
+    top: 5px;
+    position: absolute;
+    float: left;
+}
+#search-btn{
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+    position: absolute;
+    right:0;
+    top:0;
+
+}
+#search-btn img{
+    width: 20px;
+    height: 20px;
+    margin: 10px 10px;
+}
+#menu-unloged{
+    height: 50px;
+    margin-top: 5px;
+    width: 160px;
+    
+}
+#log-reg{
+    color: #7b7b7b;
+    width: 100px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    border-radius: 5px;
+    margin-left: 20px;
+    cursor: pointer;
+    transition: 0.2s ease-out;
+}
+#log-reg:hover{
+    background-color: #dfdfde;
+}
+
+#menu-loged{
+    height: 50px;
+    margin-top: 5px;
+    width: 160px;
+
+    background-color: salmon;
+}
+
+#username{
+    font-size: 18px;
+    display: inline-block;
+    
+}
+
+#footer{
+    height: 80px;
+    width: 100%;
+    background-color: #3a3d3e;
+}
