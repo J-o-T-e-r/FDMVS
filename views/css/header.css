@@ -15,13 +15,14 @@ input{
     height: 60px;
     width: 100%;
     border-bottom: 1px solid #f0f0f0;
-  
-    
+    background-color: #efefef;
+    position: fixed;
+    z-index: 2;
+    box-shadow: 0 5px 5px rgb(204, 204, 204);
 }
 #header{
     width: 66%;
-    height: 60px;
-  
+    height: 60px; 
     display: flex;
     justify-content: space-between;
 }
@@ -36,7 +37,7 @@ input{
 #search-ct{
     width: 36%;
     height: 40px;
-    background-color:transparent;
+    background-color: #ffffff;
     border:1px solid #7b7b7b;
     margin-left: 2%;
     border-radius: 20px;
