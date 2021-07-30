@@ -33,10 +33,12 @@ let dataUp = function(dataGet){
   dataTest.nodes.push(CreateNode(rootId,dataGet.class));
 }
 dataUp(dataGet)
+
  const tooltip = new G6.Tooltip({
   offsetX: 10,
   offsetY: 20,
   getContent(e) {
+
     const outDiv = document.createElement('div');
     outDiv.style.width = '120px';
     outDiv.innerHTML = `
@@ -89,7 +91,7 @@ dataUp(dataGet)
 
 
 const graph = new G6.Graph({
-  container:'scholar-graph',
+  container:'graph-exist',
   layout:{
     type:'force',
     nodeStrength: -100,
@@ -98,8 +100,8 @@ const graph = new G6.Graph({
     preventOverlap: true,
     linkDistance:100,
   },
-  width:1000,
-  height:400,
+  width:910,
+  height:550,
   fitView: true,
   fitViewPadding: [20, 40, 50, 20],
   modes: {

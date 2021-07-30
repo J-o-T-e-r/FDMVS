@@ -6,8 +6,8 @@
 	<style>
 
   </style>
-    <link rel="stylesheet" href="css/scholar.css">
-    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="../css/scholar.css">
+    <link rel="stylesheet" href="../css/header.css">
 <script src="https://gw.alipayobjects.com/os/lib/antv/g6/4.3.4/dist/g6.min.js"></script>
 </head>
 	
@@ -17,7 +17,7 @@
             <div id="logo"></div>
             <div id="search-ct">
                 <input type="text" id="search" placeholder="输入您要查询的学者ID">
-                <div id="search-btn" title="输入您要查询的学者ID"><img src="images/search.png"></div>
+                <div id="search-btn" title="输入您要查询的学者ID"><img src="../images/search.png"></div>
             </div>
             <div id="menu-loged">
                 <span id="username">这是用户名</span>
@@ -25,13 +25,52 @@
             </div>
         </div>
     </div>
-    <div>
-        
+    <div id="wrapper">
+        <div id="content">
+            <div id="main">
+                <div id="imf-ct">
+                    <div id="scholar-detail">
+                        <div class="imf-title">节点信息</div>
+                        <ul id="detail-list">
+                            <li>ID：<span class="detail-data">123</span></li>
+                            <li>科研兴趣：<span class="detail-data">计算机啊实打实大苏打实打实大苏打实打实大苏打</span></li>
+                            <li>个人主页：<span class="detail-data">www.www.com</span></li>
+                        </ul>
+                    </div>
+                    <div id="scholar-relate">
+                        <div class="imf-title">相关信息</div>
+                        <ul id="relate-list">
+                            <li>ID：<span class="relate-data">123</span></li>
+                            <li>科研兴趣：<span class="relate-data">计算机</span></li>
+                            <li>个人主页：<span class="relate-data">www.www.com</span></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div id="graph-ct">
+                    <div id="btn-ct">
+                        <div class="btn btn-act">结果</div>
+                        <div class="btn btn-unact">预测</div>
+                    </div>
+                    <div id="graph-exist"></div>
+                    <div id="graph-predict" style="display: none;"></div>
+                    
+                </div>
+               
+                
+               
+            </div>
+             <!-- <div id="something"></div> -->
+        </div>
+       
+
     </div>
+    <div id="footer"></div>
 
 
 </body>
 
-<!-- <script src="JS/graph.js"></script> -->
-
+<script src="../JS/scholarGraph.js"></script>
+<script src="../JS/scholar.js"></script>
+<script src="../JS/background.js"></script>
 </html>
