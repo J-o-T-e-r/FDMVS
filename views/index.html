@@ -18,6 +18,7 @@
             <div id="search-ct">
                 <input type="text" id="search" placeholder="输入您要查询的学者ID">
                 <div id="search-btn" title="输入您要查询的学者ID"><img src="images/search.png"></div>
+                
             </div>
             <div id="menu-unloged">
                 <div id="log-reg">登录/注册</div>
@@ -32,7 +33,7 @@
         <div id="content">
             <div id="scholar-graph">
                 <div id="scholar-detail">
-                    <div id="detail-title">信息展示</div>
+                    <div id="detail-title">节点信息</div>
                     <ul id="detail-list">
                         <li>ID：<span class="detail-data">123</span></li>
                         <li>科研兴趣：<span class="detail-data">计算机</span></li>
@@ -41,7 +42,7 @@
                 </div>
             </div>
             <div id="data-statistic">
-                <div id="sta-title">数据概览</div>
+                <div id="sta-title"><img src="./images/小节点图.png"><span>数据概览</span><img src="./images/小节点图2.png" alt=""></div>
                 <div id="sta-data-ct">
                     <div>
                         <span class="sta-num">370587</span>
@@ -49,30 +50,35 @@
                     </div>
                     <div>
                         <span class="sta-num">370587</span>
-                        <span class="sta-name">总节点数</span>
+                        <span class="sta-name">总边数</span>
                     </div>
                     <div>
                         <span class="sta-num">370587</span>
-                        <span class="sta-name">总节点数</span>
+                        <span class="sta-name">网络密度</span>
                     </div>
                     <div>
                         <span class="sta-num">370587</span>
-                        <span class="sta-name">总节点数</span>
+                        <span class="sta-name">连通分支数</span>
                     </div>
                 </div>
             </div>
             <div id="data-graph">
-                <div id="hot-domain"></div>
+                <div id="hot-domain">
+                    <div id="container" class="containers">热门研究领域的统计数据</div>
+                    <div id="container1"  class="containers">高校学者数的统计数据</div>
+                </div>
             </div>
             
         </div>
         
-        <div id="footer"></div>
+  
     </div>
-    <div id="footer"></div>
+   <div id="footer"></div>
 
 </body>
+<script src="https://gw.alipayobjects.com/os/lib/antv/g2/4.1.22/dist/g2.min.js"></script>
 <script src="JS/background.js"></script>
 <!-- <script src="JS/graph.js"></script> -->
+<script src="./JS/index.js"></script>
 
 </html>
