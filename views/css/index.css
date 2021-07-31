@@ -2,7 +2,7 @@
     width: 100%;   
     background-color: #efefef;
     display: flex;
-   
+    position: relative;
     justify-content: center;
 }
 #content{
