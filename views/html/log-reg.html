@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title></title>
+    <link rel="stylesheet" href="../css/log-reg.css">
+    <link rel="stylesheet" href="../css/header.css">
+<script src="https://gw.alipayobjects.com/os/lib/antv/g6/4.3.4/dist/g6.min.js"></script>
+</head>
+<body>
+    <div id="header-ct">
+        <div id="header">
+            <div id="logo"></div>
+            <div id="menu-unloged">
+                <a id="log-reg" href="../html/log-reg.html">登录/注册</a>
+
+            </div>
+        </div>
+    </div>
+    <div id="content">
+        <div id="main">
+            <div id="picture"></div>
+            <div id="log">
+                <div id="log-box">
+                    <div id="main-log">
+                        <div id="switch"><span id="login-btn">登录</span>
+                        <span id="signup-btn">注册</span></div>
+                        <form id="login">
+                            <div class="inputWrapper">
+                                <input type="text" placeholder="邮箱" class="user-name text">
+                                <span class="line"></span>
+                                <img src="../images/Yes.png" class="icon1">
+                                <img src="../images/No.png" class="icon1">
+                            </div>
+                            <span class="tips">请输入正确的邮箱格式</span>
+                            
+                            <div class="inputWrapper">
+                                <input type="password" placeholder="密码" class="password text">
+                                <span class="line"></span>
+                                <img src="../images/Yes.png" class="icon2">
+                                <img src="../images/No.png" class="icon2">
+                            </div>
+                            <span class="tips">长度为8到16位的字母,数字,_</span>
+                            <input type="button" value="登录" class="btn">
+                        </form>
+        
+                        <form action="" id="sign-up">
+                            <div class="inputWrapper">
+                                <input type="text" placeholder="邮箱" class="user-name text">
+                                <span class="line"></span>
+                                <img src="../images/Yes.png" class="icon3">
+                                <img src="../images/No.png" class="icon3">
+                            </div>
+                            <span class="tips">请输入正确的邮箱格式</span>
+                            
+                            <div class="inputWrapper">
+                                <input type="password" placeholder="密码" class="password text">
+                                <span class="line"></span>
+                                <img src="../images/Yes.png" class="icon4">
+                                <img src="../images/No.png" class="icon4">
+                            </div>
+                            <span class="tips">长度为8到16位的字母,数字,_</span>
+                            <div class="inputWrapper" id="repassword">
+                                <input style="background-image: url(../images/nick.png);" type="text" placeholder="请输入昵称" class="password text">
+                                <span class="line"></span>
+                                <img src="../images/Yes.png" class="icon5">
+                                <img src="../images/No.png" class="icon5">
+                            </div>
+                            <span class="tips">长度为2到10位的中文,字母,数字,_</span>
+                            <input type="button" value="注册" class="btn">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+    <div id="footerLog"></div>
+</body>
+
+<script src="../JS/log-reg.js"></script>
+
+</html>

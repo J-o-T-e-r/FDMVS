@@ -33,12 +33,11 @@ let dataUp = function(dataGet){
   dataTest.nodes.push(CreateNode(rootId,dataGet.class));
 }
 dataUp(dataGet)
-
+console.log(dataTest)
  const tooltip = new G6.Tooltip({
   offsetX: 10,
   offsetY: 20,
   getContent(e) {
-
     const outDiv = document.createElement('div');
     outDiv.style.width = '120px';
     outDiv.innerHTML = `
@@ -47,46 +46,39 @@ dataUp(dataGet)
       <li> ${e.item.getModel().label || e.item.getModel().id}</li>
     `
     /* e.item.getModel().hobby.join(',') */
-    return outDiv
+    return outDiv;
   },
   itemTypes: ['node']
 });
   G6.registerNode(
-  'background-animate',
-  {
-    afterDraw(cfg, group) {
-    
-      let r = cfg.size / 2;
-      if (isNaN(r)) {
-        r = cfg.size[0] / 2;
-      }
-      // 第一个背景圆
-      const back = group.addShape('circle', {
-        zIndex: -1,
-        attrs: {
-          x: 0,
-          y: 0,
-          r,
-          fill: cfg.color,
-          opacity: 0.6,
-        },
-      });
-      // 第一个背景圆逐渐放大，并消失
-      back.animate(
-        {
-          r: r + 10,
-          opacity: 0.1,
-        },
-        {
-          repeat: true, // 循环
-          duration: 3000,
-          easing: 'easeCubic',
-          delay: 1000, // 无延迟
-        },
-      );
+    'circle-animate',
+    {
+      afterDraw(cfg, group) {
+        // 获取该节点上的第一个图形
+        const shape = group.get('children')[0];
+        // 该图形的动画
+        shape.animate(
+          (ratio) => {
+            // 每一帧的操作，入参 ratio：这一帧的比例值（Number）。返回值：这一帧需要变化的参数集（Object）。
+            // 先变大、再变小
+            const diff = ratio <= 0.5 ? ratio * 10 : (1 - ratio) * 10;
+            let radius = cfg.size;
+            if (isNaN(radius)) radius = radius[0];
+            // 返回这一帧需要变化的参数集，这里只包含了半径
+            return {
+              r: radius / 2 + diff,
+            };
+          },
+          {
+            // 动画重复
+            repeat: true,
+            duration: 3000,
+            easing: 'easeCubic',
+          },
+        ); // 一次动画持续的时长为 3000，动画效果为 'easeCubic'
+      },
     },
-  },
-  'circle',
+    'circle',
 );
 
 
@@ -109,7 +101,7 @@ const graph = new G6.Graph({
   
   },
   defaultNode:{
-    type:'background-animate',
+    type:'circle-animate',
     style:{
       cursor:'pointer',  
     }
@@ -121,8 +113,8 @@ const graph = new G6.Graph({
     },
     // 鼠标点击节点，即 click 状态为 true 时的样式
     click: {
-      stroke: '#000',
-      lineWidth: 1,
+      stroke: '#FF745A',
+      lineWidth: 1.5,
     },
     
   },

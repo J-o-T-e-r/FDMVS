@@ -1,7 +1,7 @@
 #wrapper{
     width: 100%;
     display: flex;
-   
+    padding-bottom: 40px;
     justify-content: center;
 }
 #content{
@@ -9,6 +9,7 @@
     height: 100%;
     border: 1px solid black;
     margin-bottom: 40px;
+    
 }
 
 #scholar-graph{

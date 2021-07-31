@@ -13,6 +13,13 @@ input{
     --bluePurple:#8269d6;
     --ltPurple:#f9f0ff;
 }
+body{
+    width: 100%;
+    min-width: 666px;
+}
+a{
+    text-decoration: none;
+}
 #header-ct{ 
     display: flex;
     justify-content: center;
@@ -20,18 +27,18 @@ input{
     width: 100%;
     border-bottom: 1px solid #f0f0f0;
     background-color: white;  
-    
+
 }
 #header{
     width: 66%;
     height: 60px;
-    
+    min-width: 620px;
     display: flex;
     justify-content: space-between;
 }
 
 #logo{
-    width: 120px;
+    width: 140px;
     height: 60px;
     background-repeat: no-repeat;
     background-image: url(../images/logo.png);
@@ -51,6 +58,7 @@ input{
     position: relative;
     left: 20px;
     transition: all .3s ease-out;
+    min-width: 190px;
 }
 
 #search-ct:hover{
@@ -91,6 +99,7 @@ input{
     
 }
 #log-reg{
+    display: inline-block;
     color: #7b7b7b;
     width: 100px;
     height: 50px;
@@ -124,7 +133,9 @@ input{
 }
 
 #footer{
-    height: 80px;
+    height: 40px;
     width: 100%;
+    position: absolute;
+    bottom: 0;
     background-color: #3a3d3e;
 }
