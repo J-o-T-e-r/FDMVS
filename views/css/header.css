@@ -3,6 +3,11 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+html,body {
+    height: 100%;
+}
+
 li{
     list-style:none;
 }
@@ -128,6 +133,8 @@ input{
     height: 80px;
     width: 100%;
     background-color: #3a3d3e;
-    position: absolute;
-    bottom: 0;
+    position: relative;
+    /* bottom: 0px; */
+    /* position: absolute;
+    bottom: 0px; */
 }
