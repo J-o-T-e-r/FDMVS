@@ -180,12 +180,12 @@ window.onload = function(){
                 tips[4].style.visibility = "visible";  
                 icon5[1].style.visibility = 'visible';   //控制
 	            icon5[0].style.visibility = 'hidden'; 
-                signFlag[2] = 1;
+                signFlag[1] = 0;
             }else{
                 icon5[0].style.visibility = 'visible';   //控制
 	            icon5[1].style.visibility = 'hidden';
                 tips[4].style.visibility = "hidden"; 
-                signFlag[2] = 0;
+                signFlag[1] = 1;
             }
 		}
 	}
@@ -297,21 +297,22 @@ window.onload = function(){
         }
         
         else if(signFlag[0] && signFlag[1]){
-            let url = "http://127.0.0.1:3000/";
+            let url = "http://112.74.37.0:5657/api-register-data";
             let data = {
-                user_email : user[1].value,
-        		user_password : pw[1].value,
-                user_nickname:pw[2].value,
-                flag:1
+                username : user[1].value,
+        		pwd : pw[1].value,
              }
-             post(url,data,function(res){
-                    var resText = JSON.parse(res);
-                    prmP[2].innerHTML = resText.message;
+             $.post(url,data,function(res){
+                    if(res=="success"){
+                        prmP[2].innerHTML = '注册成功！';
+                        enLogin.click();
+                    }else{
+                        prmP[2].innerHTML = '注册失败，请稍后重试！';
+                    }
                     prmBtn.addEventListener("click",function(){                  
                     prompt.style.display = "none";
-                    if(resText.flag == 0) enLogin.click();
                 })
-             });
+             }); 
                 prompt.style.display = "block";		
                 prmBtn.addEventListener("click",function(){
                 prompt.style.display = "none";

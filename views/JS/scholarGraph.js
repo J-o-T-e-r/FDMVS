@@ -1,4 +1,47 @@
-const dataGet = { "id":"123","connection": [5688, 8215, 9618, 5696, 4226, 5228, 7754, 7251, 310, 2354, 5158, 10639, 10397, 7060, 10575, 2936, 10162, 9035, 9582, 3864, 7273, 5330, 8265, 7398, 8054, 4587, 7807, 9397, 2349, 7456, 9137, 4384, 176, 9418, 1562, 218, 2062, 2355, 7459, 7467, 10698, 5604, 7401, 6977, 2335, 5638, 6985, 4409, 7767, 4343, 7394, 7397, 6574, 2321, 2365, 2449, 7721, 5504, 4083, 5743, 216, 2216, 5722, 2658, 7930, 8859, 3077, 8085, 4807, 235, 2212, 7471, 2532, 5273, 7399, 230, 2367, 5682, 7553, 8855, 8600, 2345, 10560, 9002, 64, 533, 6982, 2356, 5712, 4364, 6992, 4596, 2515, 5641, 2357, 10529, 5096, 8181, 7405, 8565, 5652, 6850, 1916, 2326, 3833, 7513, 2531, 2131, 5685, 3237, 7505, 7396, 10695, 10718, 1416, 6984, 10318, 273, 5729], "class": "class1"};
+
+let detailData = document.getElementsByClassName('detail-data');
+let relateData = document.getElementsByClassName('relate-data');
+let graphData = {nodes:[],edges:[]}
+const getDetail = function(){
+  let id = '123';
+  let url = 'http://112.74.37.0:5657/'+id+'/root-data';
+  $.get(url,id,(res)=>{
+    let root  = {
+      id:id,
+      label:id,
+      class:'class1',
+      style:{
+        fill:'#f9f0ff',
+        lineDash:'1'
+      },
+      labelCfg:{
+        color:'#873bf4'
+      },
+    }
+    let data = JSON.parse(res);
+    graphData.nodes.push(root);
+    detailData[0].innerHTML = data.id;
+    detailData[1].innerHTML = eval(data.interest).join(',');
+    relateData[0].innerHTML = data['ori-num'];
+    relateData[1].innerHTML = data['predict-num'];
+  })
+}
+
+  const getExistData = function(){
+    let id = '123';
+    let url = 'http://112.74.37.0:5657/'+id+'/ori-connections';
+    $.get(url,id,(res)=>{
+      let data = eval(JSON.parse(res));
+      for(let n in data){
+        graphData.nodes.push(CreateNode(n,'class2',eval(data[n])));
+        graphData.edges.push(CreateEdge(id,n));
+      }
+      console.log(graphData)
+    })
+  }
+  getDetail();
+  getExistData()
+  
   const test = {
     hobby:["电气","自动化","呵呵"],
     neibor:['node2','node8'],
@@ -8,12 +51,13 @@ const dataGet = { "id":"123","connection": [5688, 8215, 9618, 5696, 4226, 5228, 
   nodes:[],
   edges:[]
 }
-const CreateNode = function(id,className){
+const CreateNode = function(id,className,hobby){
   let obj = {};
   obj.id =  id;
   obj.class = className;
   obj.label = id;
-  obj.hobby = ["电气","自动化","呵呵"];
+  obj.hobby =hobby;
+  obj.type = 'circle';
   return obj;
 }
 
@@ -32,8 +76,7 @@ let dataUp = function(dataGet){
   }
   dataTest.nodes.push(CreateNode(rootId,dataGet.class));
 }
-dataUp(dataGet)
-console.log(dataTest)
+
  const tooltip = new G6.Tooltip({
   offsetX: 10,
   offsetY: 20,
@@ -136,7 +179,7 @@ const graph = new G6.Graph({
 
 
 
-let data = {
+/* let data = {
   nodes:[
     {
       id:'node1',
@@ -253,11 +296,11 @@ let data = {
       target:'node11',
     }
   ]
-}
+} */
 
 
-graph.data(data);
-const nodes = data.nodes;
+graph.data(graphData);
+const nodes =graphData.nodes;
 nodes.forEach((node)=>{
   if(!node.style){
     node.style = {};
