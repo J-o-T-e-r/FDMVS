@@ -3,6 +3,44 @@ let detailData = document.getElementsByClassName('detail-data');
 let relateData = document.getElementsByClassName('relate-data');
 let graphData1 = {nodes:[],edges:[]};
 let graphData2 = {nodes:[],edges:[]};
+/* let id = 'http://112.74.37.0:5657/1548/page'.split('/')[3]; */
+let id = location.href.slice(location.href.indexOf("?")+1)
+console.log(id);
+let btn = document.getElementsByClassName('btn');
+let graphExist = document.getElementById('graph-exist');
+let graphPredict = document.getElementById('graph-predict');
+let userbtn = document.getElementsByClassName('user-btn');
+
+userbtn[1].onclick = ()=>{
+  sessionStorage.removeItem('token');
+  location.href = '../html/log-reg.html';
+}
+
+for(let i = 0;i<2;i++){
+    btn[i].onclick = function(){
+        for(let x of btn) {
+            if(x.classList[1] !== 'btn-unact') {
+                x.classList.toggle('btn-unact');
+                x.classList.toggle('btn-act');
+            }
+        }
+        btn[i].classList.toggle('btn-unact');
+        btn[i].classList.toggle('btn-act');
+        if(i==0){
+            graphExist.style.display = "block";
+            graphPredict.style.display = "none";
+        }else{
+            graphExist.style.display = "none";
+            graphPredict.style.display = "block";
+        }
+    }
+}
+
+const loadData = function(){
+
+  getDetail(id);
+}
+
 function randomNum(minNum,maxNum){ 
   switch(arguments.length){ 
       case 1:  return parseInt(Math.random()*minNum+1,10); 
@@ -10,9 +48,8 @@ function randomNum(minNum,maxNum){
       default: return 0; 
   } 
 } 
-const getDetail = function(){
+const getDetail = function(id){
   
-  let id = '123';
   let dataT = {
     id:id,
   }
@@ -401,8 +438,8 @@ const tooltip2 = new G6.Tooltip({
       e.item.get('model').fy = null;
     });
   }
-  const getExistData = function(){
-    let id = '123';
+  const getExistData = function(id){
+
     let url = 'http://112.74.37.0:5657/'+id+'/ori-connections';
     $.get(url,id,(res)=>{
       let data = eval(JSON.parse(res));
@@ -415,7 +452,6 @@ const tooltip2 = new G6.Tooltip({
     })
   }
   const getPredictData = function(){
-    let id = '123';
     let url = 'http://112.74.37.0:5657/'+id+'/predict-connections';
     $.get(url,(res)=>{
       let data = eval(JSON.parse(res));
@@ -426,7 +462,6 @@ const tooltip2 = new G6.Tooltip({
       createGraph2();
     })
   }
-  getDetail();
   
 
 
@@ -481,7 +516,7 @@ const CreateEdge = function(source,target){
 );
 
 
-
+loadData();
 
 
 

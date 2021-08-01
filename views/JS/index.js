@@ -27,7 +27,13 @@ window.onload = async function() {
   let scholarUrl = 'http://112.74.37.0:5657/';
   let detail = document.getElementsByClassName('detail-data');
   let token = sessionStorage.getItem('token');
- 
+  let userBtn = document.getElementsByClassName('user-btn');
+  
+  userBtn[1].onclick = ()=>{
+    sessionStorage.removeItem('token');
+    location.href = 'html/log-reg.html';
+  }
+  
 
 
   for(let x in fourData){
@@ -75,7 +81,6 @@ window.onload = async function() {
          
           graphData.nodes.push(node);
         }
-        
         let connection = (eval('('+data[i].connection+')'))[data[i].id];
         for(let n of connection){
           if(nodeTemp.includes(n)){
@@ -90,8 +95,18 @@ window.onload = async function() {
             graphData.nodes.push(node);
           }       
         }
-        
         for(let k = 0;k<connection.length;k++){
+          /* console.log(graphData.nodes.includes(connection[k]));
+          console.log(graphData.nodes.includes(data[j].id));
+          if(!graphData.nodes.includes(connection[k])){
+            console.log(connection[k],JSON.stringify(data[j].id));
+            graphData.nodes.push(connection[k]+'');
+
+          }else if(!graphData.nodes.includes(JSON.stringify(data[j].id))){
+
+            graphData.nodes.push(JSON.stringify(data[j].id));
+
+          } */
           let edge = {
             source:JSON.stringify(data[j].id),
             target:connection[k]+''
@@ -99,12 +114,13 @@ window.onload = async function() {
           graphData.edges.push(edge);
         }
       }
-   
+     
       createGraph();
     })
   }
   const getNodeDetail = function(id){
     let url = 'http://112.74.37.0:5657/api-id-data';
+    
     let data = {
       id:id
     }
@@ -114,7 +130,16 @@ window.onload = async function() {
       detail[1].innerHTML = eval(data.interest).join(',');
       detail[2].innerHTML = data.neighbour;
       detail[3].onclick = function(){
-        window.open(scholarUrl+id + '/page');
+        $.post(urlRoot+'api-login-verify',(res)=>{            
+          if($.isEmptyObject(res)){
+            window.open('html/scholar.html?'+id);
+          }   
+          else{
+              alert('请先登录再进行此操作！');
+              location.href = 'html/log-reg.html'
+          }
+        })
+        
       }
     })
   }

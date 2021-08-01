@@ -16,12 +16,15 @@ let userDetail = document.getElementsByClassName('user-data');
 let username = document.getElementById('usernameText');
 let urlRoot = 'http://112.74.37.0:5657/';
 let interest = [];
+let token = sessionStorage.getItem('token');
 for(let i = 0;i<interestItem.length;i++){
   interestItem[i].onclick = ()=>{
-      interest.push(interestItem[i].innerHTML);
-      interestItem[i].style.backgroundColor = "#f9f0ff";
+    interest.push(interestItem[i].innerHTML);
+    interestItem[i].style.backgroundColor = "#f9f0ff";
   }
 }
+inputBox[0].value = userDetail[1].innerHTML;
+    inputBox[1].value = userDetail[2].innerHTML;
 userBtn[0].onclick = ()=>{
   coverBox.style.display = "block";
   modifyBox.style.display = "block";
@@ -44,28 +47,47 @@ shutMod.onclick = ()=>{
 }
 
 modifyBtn.onclick = ()=>{
-    inputBox[0].innerHTML = userDetail[1].innerHTML;
-    inputBox[1].innerHTML = userDetail[2].innerHTML;
+    let legal1 = /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9]){2,10}$/g;
+    let legal2 = /^((1[0-5])|[1-9])?\d$/g;
+
     interest = Array.from(new Set(interest));
-
-    let data = {
-
+    if(legal2.test(inputBox[0].value) && legal1.test(inputBox[1].value)){
+        let data = {
+            username:username.innerHTML,
+            interest:interest,
+            age:inputBox[0].value||userDetail[1].innerHTML,
+            workplace:inputBox[1].value||userDetail[2].innerHTML
+        }
+        $.post('http://112.74.37.0:5657/api-ChangeInfo',data,(res)=>{
+            if(res == 'success'){
+                alert('修改成功！');
+            }else{
+                alert('修改失败，请重试！')
+            }
+        })
+    }else{
+        alert('请输入合法字符！');
     }
-    $.post('http://112.74.37.0:5657/api-ChangeInfo',data,(res)=>{
-
-    })
-}
+    }
+    
+   
 
 const checkLog = ()=>{
   let url = urlRoot + '/api-login-verify';
-
+    /* if(!sessionStorage.token){
+        alert('请先登录再进行此操作！');
+        location.href = '../html/log-reg.html';
+    } */
   let data = {
-    token:'MTYyNzgyNzE4NS45NzE4NDg1OjU2YWY4MmI5MDBmZGNjZTZkNTU5MTc5NTE1NWUzYjNmYTk3MWMyZGY=',
+    token:sessionStorage.token,
     username:'asd'
   }
+  userDetail[0].innerHTML ='asd'
   $.post(url,data,(res)=>{
+      console.log(res);
     if(!$.isEmptyObject(res)){
         let dataRes = JSON.parse(res);
+        console.log(dataRes);
         logedBox.style.display = "block";
         unlogedBox.style.display = "none";
         username.innerHTML = dataRes.username;
@@ -74,8 +96,6 @@ const checkLog = ()=>{
             userDetail[1].innerHTML = dataRes.age;
             userDetail[2].innerHTML = dataRes.workplace;
         }
-        
-
     }else{
         unlogedBox.style.display = "block";
         logedBox.style.display = "none";
@@ -88,14 +108,21 @@ checkLog();
 
 
 
-
+/* search.addEventListener('keydown',(e)=>{
+    e.preventDefault();
+    if (e.keyCode === 13) {
+        searchBtn.click();
+    }
+   
+}) */
 
 
 
 searchBtn.onclick = ()=>{
 
-    $.post(urlRoot+'api-login-verify',(res)=>{      
-        if(!$.isEmptyObject(res)){
+    $.post(urlRoot+'api-login-verify',(res)=>{  
+          
+        if($.isEmptyObject(res)){
             window.open(urlRoot+search.value+'/page');
         }   
         else{
@@ -107,6 +134,3 @@ searchBtn.onclick = ()=>{
 
 }
 
-userBtn[1].onclick = ()=>{
-    sessionStorage.removeItem('token');
-}

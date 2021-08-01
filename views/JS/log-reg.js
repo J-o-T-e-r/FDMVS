@@ -1,8 +1,8 @@
 function isLegal(type,obj,icon,tip,flag){       //检测输入内容是否合法
     if(type == 0){		
-        var legal = /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9]){2,10}$/i;    //邮箱格式
+        var legal = /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9]){2,10}$/g;    
     }else if(type == 1){
-        var legal = /^\w{6,14}$/i;	//密码匹配
+        var legal = /^\w{6,14}$/g;	//密码匹配
     }
     var arr = new Array();
     arr = obj.value.split(" ");		//将输入的内容存进数组
@@ -52,6 +52,7 @@ window.onload = function(){
     let prmBtn = document.getElementById('prm-btn');
     let prmP = document.getElementsByClassName('prm-p');
     let cover = document.getElementById('cover');
+    let flagRep = 1;
     let token;
     let localStorage = window.localStorage;
     //回车登录
@@ -160,10 +161,13 @@ window.onload = function(){
             }
             $.post('http://112.74.37.0:5657/api-register-verify',data,(res)=>{
                 if(res=='success'){
-                    signFlag[0] = isLegal(0,this,icon3,tips[2],signFlag[0]);
                     tips[2].innerHTML = "请输入长度为2到14的中文或英文";
+                    flagRep = 1;
                     tips[2].style.color = "black";
+                    signFlag[0] = isLegal(0,this,icon3,tips[2],signFlag[0]);
+                    
                 }else{
+                    flagRep = 0;
                     tips[2].innerHTML = "用户名已存在！";
                     tips[2].style.color = "red";
                     tips[2].style.visibility = "visible";
@@ -212,7 +216,8 @@ window.onload = function(){
             if(res.length!=0){
                 sessionStorage.setItem('token',res);
                 token = res;;
-                prmP[2].innerHTML = '登陆成功！';            
+                prmP[2].innerHTML = '登陆成功！';   
+                      
             }else{
                 prmP[2].innerHTML = '用户名或密码错误，请重试！';
             }
@@ -226,7 +231,7 @@ window.onload = function(){
             prmBtn.addEventListener("click",function(){
                 prompt.style.display = "none";
                 cover.style.display = "none";
-                if(prmP[2].innerHTML == '登陆成功！')location.href = "../index.html"
+                if(prmP[2].innerHTML = '登陆成功！')location.href = 'http://112.74.37.0:5657/';   
             })
         }else if(!user[0].value && !pw[0].value){
             prompt.style.display = "block";
@@ -252,7 +257,6 @@ window.onload = function(){
             prmP[2].innerHTML = '';
             })
         }else{
-            prmP[2].innerHTML = "格式有误，请重新输入！";
             prompt.style.display = "block";
             prmBtn.addEventListener("click",function(){
             prompt.style.display = "none";
@@ -305,7 +309,7 @@ window.onload = function(){
                 prompt.style.display = "none";
                 cover.style.display = "none";
             })
-        }else if(tips[2].style.color = 'red'){
+        }else if(flagRep == 0){
             prmP[2].innerHTML = '用户名已存在，请重试！';
             prompt.style.display = "block";
             prmBtn.addEventListener("click",function(){
@@ -320,7 +324,7 @@ window.onload = function(){
         		pwd : pw[1].value,
              }
              $.post(url,data,function(res){
-                 console.log(res);
+                 
                     if(res=="success"){
                         prmP[2].innerHTML = '注册成功！';                 
                         enLogin.click();
