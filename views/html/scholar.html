@@ -10,16 +10,67 @@
 </head>
 	
 <body>
+    <div id="cover"></div>
+    <div id="imf-modify">
+        <form id="user-detail">
+            <div id="modify-shut"></div>
+            <div id="user-interest">
+                <span >请在下方选择您的科研兴趣：</span>
+                <span id="reload"></span>
+                <ul id="interest-list">
+                    <li class="interest-item"></li>
+                    <li class="interest-item"></li>
+                    <li class="interest-item"></li>
+                    <li class="interest-item"></li>
+                    <li class="interest-item"></li>
+                    <li class="interest-item"></li>
+                    <li class="interest-item"></li>
+                    <li class="interest-item"></li>
+                    <li class="interest-item"></li>   
+                    <li class="interest-item"></li>              
+                </ul>
+                
+            </div>
+            <div class="inputWrapper-modify">
+                <input type="text" placeholder="年龄" class="text" style="background-image: url(../images/age.png);">
+                <span class="line"></span>
+                <img src="../images/Yes.png" class="icon6">
+                <img src="../images/No.png" class="icon6">
+            </div>
+            <span class="tips-mod"></span>
+            <div class="inputWrapper-modify">
+                <input type="text" placeholder="院校" class="text" style="background-image: url(../images/school.png);">
+                <span class="line"></span>
+                <img src="../images/Yes.png" class="icon7">
+                <img src="../images/No.png" class="icon7">
+            </div>
+            <span class="tips-mod"></span>
+            <div id="modify">修改</div>
+        </form>
+      
+    </div>                       
     <div id="header-ct">
         <div id="header">
-            <div id="logo"></div>
+            <a id="logo" href="/"></a>
             <div id="search-ct">
                 <input type="text" id="search" placeholder="输入您要查询的学者ID">
                 <div id="search-btn" title="输入您要查询的学者ID"><img src="../images/search.png"></div>
             </div>
             <div id="menu-loged">
-                <span id="username">这是用户名</span>
-                <div id="user-detail"></div>
+                <span id="username">
+                    <span id="usernameText">这是用户名</span>
+                    <ul id="user-imf">
+                        <li>科研兴趣：<span class="user-data">大数据</span></li>
+                        <li>年龄：<span class="user-data">25</span></li>
+                        <li>院校：<span class="user-data">广东工业大学</span></li>
+                        <div id="user-menu">
+                            <div class="user-btn">修改信息</div>
+                            <div class="user-btn">退出登录</div>
+                        </div>
+                    </ul>
+                   
+                </span>
+                
             </div>
         </div>
     </div>
@@ -61,12 +112,13 @@
        
 
     </div>
-    <div id="footer"></div>
+    
 
 
 </body>
-
+<script src="../JS/checkLog.js"></script>
 <script src="../JS/scholarGraph.js"></script>
 <script src="../JS/scholar.js"></script>
 <script src="../JS/background.js"></script>
+
 </html>

@@ -22,29 +22,29 @@
     position: relative;
     overflow: hidden;
     /* border: 1px solid black; */
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.35);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     border-radius: 6px;
-    background-color: #EACCF3;
+    background-color: var(--ltPurple);
 }
 
 #scholar-detail{
     width: 240px;
     height: 100%;
     position: absolute;
-    background-color: #dfd0ef;
-    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.61);
+    background-color: var(--ltPurple);
+    border-right: 1px solid var(--bluePurple);
 }
 
 #detail-title{
-    height: 15%;
+    height: 70px;
     width: 100%;
-    background-color: #AF08E2;
-    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.51);
+    background-color: var(--bluePurple);
+    user-select: none;
     color: #fff;
     font-size: 28px;
     border-radius: 1px;
     text-align: center;
-    line-height: 58px;
+    line-height: 70px;
 }
 
 #data-statistic{
@@ -53,7 +53,7 @@
     justify-content: center;
     height: 200px;
     margin-top: 50px;
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: white;
     border-radius: 10px;
     padding: 0 10px 0 10px;
     position: relative;
@@ -64,7 +64,14 @@
     width: 100%;
     height: 85%;
     padding: 15px 22px;
-    font-size: 18px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #314659;
+}
+.detail-data{
+    font-weight: normal;
+    line-height: 30px;
+    padding-top: 6px;
 }
 
 #detail-list li {
@@ -82,6 +89,7 @@
     transform: translateX(-50%);
     justify-items: center;
     margin-bottom: 10px;
+    color:#304659;
 }
 
 #sta-title img {
@@ -107,7 +115,7 @@
 #sta-data-ct div{
     width: 230px;
     height: 110px;
-    background-color: #efefef;
+    background-color: #fbf7ff;
     margin-bottom: 30px;
     border-radius: 15px 15px 20px 20px;
     box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.25);
@@ -119,7 +127,7 @@
     line-height: 40px;
     font-size: 39px;
     font-weight: 700;
-    color: #c294f3;
+    color: var(--bluePurple);
     text-align: center;
     letter-spacing: 4px;
     margin-top: 22px;
@@ -133,10 +141,11 @@
     font-size: 18px;
     font-weight: 600;
     letter-spacing: 3px;
+    color:#304659;
 }
 
 #data-graph{
-    margin-top: 100px;
+    margin-top: 40px;
     width: 100%;
     background-color: transparent;
 }
@@ -154,4 +163,15 @@
 
 .containers canvas {
     margin-top: 20px;
+}
+
+
+.containers p{
+    color:#304558;
+    display: inline-block;;
+    width: 500px;
+    font-size: 24px;
+    font-weight: 600;
+    padding-bottom: 10px;
+border-bottom: 1px solid rgba(0,0,0,0.25);
 }

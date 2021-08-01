@@ -40,10 +40,12 @@ a{
     width: 66%;
     height: 60px; 
     display: flex;
+    min-width: 572px;
     justify-content: space-between;
 }
 
 #logo{
+    display: block;
     width: 140px;
     height: 60px;
     background-repeat: no-repeat;
@@ -136,11 +138,228 @@ a{
     line-height: 50px;
     user-select:none;
     text-align: center;
+
+}
+#user-imf{
+    padding-top: 10px;
+    width: 280px;
+    display: none;
+    text-align:start;
+    border-radius: 8px;
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.25);
+    background-color: rgb(193, 181, 235,0.7);
+    font-size: 16px;
+    font-weight: bold;
+    color: #314659;
+    
 }
 
+#user-menu{
+    width: 100%;
+    height: 60px;
+    border-radius: 0 0 5px 5px;
+    
+}
+.user-btn{
+    width: 140px;
+    float: left;
+    font-weight: bold;
+    color: #314659;
+    text-align: center;
+    line-height: 60px;
+    cursor: pointer;
+    transition: 0.2s ease-out;
+    border-top: 1px solid #95989b;
+    background-color:rgb(193, 181, 235,0.1) ;
+}
+.user-btn:nth-child(1){
+    border-radius: 0 0 0 5px;
+}
+.user-btn:nth-child(2){
+    border-radius: 0 0 5px 0;
+}
+.user-btn:hover{
+    background-color: var(--bluePurple);
+    color: white;
+}
+
+#user-imf li {
+    line-height:40px;
+    margin-left: 12px;
+
+}
+.user-data{
+    font-weight: normal;
+    
+    display: inline-block;
+    
+}
+#menu-loged:hover #user-imf{
+    display: block;
+}
 #footer{
     height: 60px;
     width: 100%;
-  
     background-color: #3a3d3e;
+}
+
+#imf-modify{
+    width: 350px;
+    height: 320px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    border-radius: 5px;
+    z-index: 5;
+    transform: translate(-50%,-50%);
+    display: none;
+}
+
+
+#user-detail{
+    width: 350px;
+    padding-bottom: 20px;
+    background-color:  white;
+}
+#user-interest{
+    width: 280px;
+    margin-left: 20px;
+    padding-top: 20px;
+    position: relative;
+}
+#user-interest span{
+    font-size: 16px;
+    color: #314659;
+    font-weight: bold;
+}
+.interest-item{
+    line-height: 30px;
+    padding-left: 8px;
+    padding-right: 8px;
+    height: 30px;
+    display: inline-block;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.interest-item:hover{
+    background-color: var(--ltPurple);
+  
+}
+.icon6{
+	position: absolute;
+    top:158px;
+    right:14%;
+    visibility: hidden;
+    width: 16px;
+    height: 16px;
+}
+.icon7{
+	position: absolute;
+    top:158px;
+    right:14%;
+    visibility: hidden;
+    width: 16px;
+    height: 16px;
+}
+#cover{
+    width:100%;
+    height: 100%;
+    background-color: #000;
+    position: fixed; 
+    left: 0; 
+    top: 0; 
+    filter: alpha(opacity=30); 
+    opacity: 0.3; 
+    display: none;
+    z-index: 3;
+}
+.inputWrapper-modify{
+    width: 80%;
+	background-color: transparent;
+	border-radius: 10px;
+	margin-top: 8px;
+    margin-left: 28px;
+    border:1px solid #d9d9d9;
+}
+.inputWrapper-modify:hover .line{
+	width: 94%;
+}
+.tips-mod{
+	font-size: 12px;
+    width: 80%;
+    display: inline-block;
+	visibility: hidden;
+	font-weight: bold;
+    margin-left: 44px;
+}
+.text{
+    background-color: transparent;
+	background-size: 20px;
+    background-repeat: no-repeat;
+    background-position: 5px center;
+	border-radius: 5px;
+	border:1px solid rgba(0,0,0,0);
+	width: 190px;
+	height: 40px;
+	outline:none;
+	margin-left: 8px;
+    padding-left: 34px;	
+}
+
+.line{
+	height: 2px;
+	width: 30px;
+	display: block;
+    border-radius: 2px;
+	background-color:var(--bluePurple);
+    transition: width .3s ease-out;
+    margin-left: 3%;
+    cursor: default;
+}
+
+#reload{
+    display: inline-block;
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    right: 40px;
+    top:20px;
+    cursor: pointer;
+    background-image: url(../images/reload.png);
+    background-size: 20px 20px;
+    background-position: 2px 2px;
+    background-repeat: no-repeat;
+}
+#modify-shut{
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    right: 20px;
+    top:20px;
+    cursor: pointer;
+    background-image: url(../images/shut.png);
+    background-size: 16px 16px;
+    background-position: 4px 4px;
+    background-repeat: no-repeat;
+}
+
+
+#modify{
+    width: 100px;
+    height: 40px;
+    position: relative;
+    left: 50%;
+    font-weight: bold;
+    transform: translateX(-50%);
+    text-align: center;
+    line-height: 40px;
+    user-select: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s ease-out;
+    background-color: var(--bluePurple);
+}
+#modify:hover{
+    background-color: rgb(109, 85, 190);
 }

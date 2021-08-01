@@ -19,16 +19,286 @@ function sendAJAX(url,type) {
 
 window.onload = async function() {
   let fourData = await sendAJAX('http://112.74.37.0:5657/overview-data');
-
+ 
+ 
   let staNums= document.querySelectorAll('.sta-num');
   let num = 0;
+  let graphData = {nodes:[],edges:[]};
+  let scholarUrl = 'http://112.74.37.0:5657/';
+  let detail = document.getElementsByClassName('detail-data');
+  let token = sessionStorage.getItem('token');
+ 
+
 
   for(let x in fourData){
     staNums[num++].innerHTML = fourData[x]
   }
+  function randomNum(minNum,maxNum){ 
+    switch(arguments.length){ 
+        case 1:  return parseInt(Math.random()*minNum+1,10); 
+        case 2:  return parseInt(Math.random()*(maxNum-minNum+1)+minNum,10);  
+        default: return 0; 
+    } 
+  } 
+
+  const getNode = function(){
+    let url = 'http://112.74.37.0:5657/api-shown_nodes-data';
+    $.get(url,(res)=>{
+      let nodeTemp = [];
+      let data = eval(res);
+     
+      getNodeDetail(data[0].id)
+      for(let k = 0;k<3;k++){
+        
+        nodeTemp.push(data[k].id);
+        
+        let connection = (eval('('+data[k].connection+')'))[data[k].id];
+        for(let n of connection){
+          nodeTemp.push(n);
+        }
+      }
+      nodeTemp = Array.from(new Set(nodeTemp));
+     
 
 
 
+      for(let j = 0;j<3;j++){
+        let i = randomNum(0,nodeTemp.length);
+        
+        if(nodeTemp.includes(data[i].id)){
+          nodeTemp.splice(nodeTemp.indexOf(data[i].id),1);
+          let node  = {
+            id:data[i].id+'',
+            label:data[i].id+'',
+            class:'class1'
+          }
+         
+          graphData.nodes.push(node);
+        }
+        
+        let connection = (eval('('+data[i].connection+')'))[data[i].id];
+        for(let n of connection){
+          if(nodeTemp.includes(n)){
+    
+            nodeTemp.splice(nodeTemp.indexOf(n),1);
+   
+            let node  = {
+              id:n+'',
+              label:n+'',
+              class:data[i].class,
+            }
+            graphData.nodes.push(node);
+          }       
+        }
+        
+        for(let k = 0;k<connection.length;k++){
+          let edge = {
+            source:JSON.stringify(data[j].id),
+            target:connection[k]+''
+          }
+          graphData.edges.push(edge);
+        }
+      }
+   
+      createGraph();
+    })
+  }
+  const getNodeDetail = function(id){
+    let url = 'http://112.74.37.0:5657/api-id-data';
+    let data = {
+      id:id
+    }
+    $.post(url,data,(res)=>{
+      let data = JSON.parse(res);
+      detail[0].innerHTML = id;
+      detail[1].innerHTML = eval(data.interest).join(',');
+      detail[2].innerHTML = data.neighbour;
+      detail[3].onclick = function(){
+        window.open(scholarUrl+id + '/page');
+      }
+    })
+  }
+  getNode();
+  function refreshDragedNodePosition(e) {
+    const modelDrag = e.item.get('model');
+    modelDrag.fx = e.x;
+    modelDrag.fy = e.y;
+  }
+  
+  
+    const createGraph = function(){
+      const graph = new G6.Graph({
+        container:'scholar-graph',
+        layout:{
+          type:'force',
+          nodeStrength: -100,
+          collideStrength: 0.7,
+          alphaDecay: 0.01,
+          preventOverlap: true,
+          linkDistance:d=>{
+            return 600;
+          }
+        },
+        width:1250,
+        height:450,
+        fitView: true,
+        fitViewPadding: [20, 40, 50, 20],
+        modes: {
+          default: ['drag-canvas', 'zoom-canvas', 'drag-node'], // 允许拖拽画布、放缩画布、拖拽节点
+        
+        },
+        defaultNode:{
+          type:'circle',
+          style:{
+            cursor:'pointer',  
+          }
+        },
+        nodeStateStyles: {
+          // 鼠标 hover 上节点，即 hover 状态为 true 时的样式
+          hover: {
+            fill: 'lightsteelblue',
+          },
+          // 鼠标点击节点，即 click 状态为 true 时的样式
+          click: {
+            stroke: '#FF745A',
+            lineWidth: 1.5,
+          },
+          
+        },
+        defaultEdge:{
+          style:{
+            stroke:"#b78dff",
+            lineWidth:1.5
+          },
+        },
+        edgeStateStyles: {
+          // 鼠标点击边，即 click 状态为 true 时的样式
+          
+          hover: {
+            stroke: '#ffab57',
+          },
+        },
+ 
+      });
+  
+      graph.data(graphData);
+        const nodes =graphData.nodes;
+        nodes.forEach((node)=>{
+          if(!node.style){
+            node.style = {};
+          }
+        
+          switch(node.class){
+            case 'class1':{
+              node.size = 40;     
+              break;
+            }
+            case 'class2':{
+              node.size = 30;
+              break;
+            }
+
+          }
+        })
+        graph.render(); 
+        // 鼠标进入节点
+      graph.on('node:mouseenter', (e) => {
+        const nodeItem = e.item; // 获取鼠标进入的节点元素对象
+        graph.setItemState(nodeItem, 'hover', true); // 设置当前节点的 hover 状态为 true
+      });
+  
+      // 鼠标离开节点
+      graph.on('node:mouseleave', (e) => {
+        const nodeItem = e.item; // 获取鼠标离开的节点元素对象
+        graph.setItemState(nodeItem, 'hover', false); // 设置当前节点的 hover 状态为 false
+      });
+      graph.on('edge:mouseenter', (e) => {
+        const edgeItem = e.item; // 获取鼠标进入的节点元素对象
+        graph.setItemState(edgeItem, 'hover', true); // 设置当前节点的 hover 状态为 true
+      });
+  
+      // 鼠标离开边
+      graph.on('edge:mouseleave', (e) => {
+        const edgeItem = e.item; // 获取鼠标离开的边元素对象
+        graph.setItemState(edgeItem, 'hover', false); // 设置当前边的 hover 状态为 false
+      });
+   
+      // 点击节点
+      graph.on('node:click', (e) => {
+        // 先将所有当前是 click 状态的节点置为非 click 状态
+  
+        const nodeItem = e.item; // 获取被点击的节点元素对象
+        const linkNodes = Object.assign(nodeItem.getNeighbors('target'),nodeItem.getNeighbors('source'));
+        const linkEdges = nodeItem.getEdges();
+        getNodeDetail(nodeItem._cfg.id);
+        graph.cfg.nodes.forEach((cn) => {    //把所有click的节点和边设为非click
+          graph.setItemState(cn, 'click', false);
+          cn._cfg.group.attrs.opacity = 0.3;
+        });
+        graph.cfg.edges.forEach((ce) => {
+          graph.setItemState(ce, 'click', false);
+          ce._cfg.group.attrs.opacity = 0.3;
+        });
+        graph.setItemState(nodeItem, 'click', true); // 设置当前节点的 click 状态为 true
+        nodeItem._cfg.group.attrs.opacity = 1;
+        linkNodes.forEach((cn) => { 
+          graph.setItemState(cn, 'click', true);
+          cn._cfg.group.attrs.opacity = 1;
+        });
+        linkEdges.forEach((ce) => {
+          graph.setItemState(ce, 'click', true);
+          ce._cfg.group.attrs.opacity = 1;
+        });
+      });
+  
+      //点击空白处，全部出现
+      graph.on('canvas:click',(e)=>{
+        graph.cfg.nodes.forEach((cn) => {    //把所有click的节点和边设为非click
+          graph.setItemState(cn, 'click', false);
+          cn._cfg.group.attrs.opacity = 1;
+        });
+        graph.cfg.edges.forEach((ce) => {
+          graph.setItemState(ce, 'click', false);
+          ce._cfg.group.attrs.opacity = 1;
+        });
+      })
+  
+      graph.on('node:dragstart', function (e) {
+        graph.layout();
+        refreshDragedNodePosition(e);
+      });
+      graph.on('node:drag', function (e) {
+        refreshDragedNodePosition(e);
+      });
+      graph.on('node:dragend', function (e) {
+        e.item.get('model').fx = null;
+        e.item.get('model').fy = null;
+      });
+      
+    }
+
+    const CreateNode = function(id,className,hobby){
+      let obj = {};
+      obj.id =  id;
+      obj.class = className;
+      obj.label = id;
+      obj.hobby =hobby;
+      obj.type = 'circle';
+      return obj;
+    }
+    
+    const CreateEdge = function(source,target){
+      let obj = {};
+      obj.source = source;
+      obj.target = target;
+      return obj;
+    }
+    
+    
+    
+     
+  
+    
   
 //第一个统计图
   let useData = await sendAJAX('http://112.74.37.0:5657/hot_domain');

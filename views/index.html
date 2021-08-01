@@ -9,23 +9,74 @@
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/header.css">
     <script src="https://gw.alipayobjects.com/os/lib/antv/g6/4.3.4/dist/g6.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
 </head>
 	
 <body>
+      <div id="cover"></div>
+    <div id="imf-modify">
+        <form id="user-detail">
+            <div id="modify-shut"></div>
+            <div id="user-interest">
+                <span >请在下方选择您的科研兴趣：</span>
+                <span id="reload"></span>
+                <ul id="interest-list">
+                    <li class="interest-item"></li>
+                    <li class="interest-item"></li>
+                    <li class="interest-item"></li>
+                    <li class="interest-item"></li>
+                    <li class="interest-item"></li>
+                    <li class="interest-item"></li>
+                    <li class="interest-item"></li>
+                    <li class="interest-item"></li>
+                    <li class="interest-item"></li>      
+                    <li class="interest-item"></li>            
+                </ul>
+                
+            </div>
+            <div class="inputWrapper-modify">
+                <input type="text" placeholder="年龄" class="text" style="background-image: url(images/age.png);">
+                <span class="line"></span>
+                <img src="images/Yes.png" class="icon6">
+                <img src="images/No.png" class="icon6">
+            </div>
+            <span class="tips-mod"></span>
+            <div class="inputWrapper-modify">
+                <input type="text" placeholder="院校" class="text" style="background-image: url(images/school.png);">
+                <span class="line"></span>
+                <img src="images/Yes.png" class="icon7">
+                <img src="images/No.png" class="icon7">
+            </div>
+            <span class="tips-mod"></span>
+            <div id="modify">修改</div>
+        </form>
+      
+    </div>                    
     <div id="header-ct">
         <div id="header">
-            <div id="logo"></div>
+            <a id="logo" href="/"></a>
             <div id="search-ct">
                 <input type="text" id="search" placeholder="输入您要查询的学者ID">
                 <div id="search-btn" title="输入您要查询的学者ID"><img src="images/search.png"></div>
                 
             </div>
-            <div id="menu-unloged">
-                <div id="log-reg">登录/注册</div>
+            <div id="menu-unloged" style="display: none;">
+                <a id="log-reg" href="html/log-reg.html">登录/注册</a>
             </div>
-            <div id="menu-loged" style="display: none;">
-                <span id="username">这是用户名</span>
-                <div id="user-detail"></div>
+            <div id="menu-loged">
+                <span id="username">
+                    <span id="usernameText"></span>
+                    <ul id="user-imf">
+                        <li>科研兴趣：<span class="user-data">大数据</span></li>
+                        <li>年龄：<span class="user-data">25</span></li>
+                        <li>院校：<span class="user-data">广东工业大学</span></li>
+                        <div id="user-menu">
+                            <div class="user-btn">修改信息</div>
+                            <div class="user-btn">退出登录</div>
+                        </div>
+                    </ul>
+                </span>
+
             </div>
         </div>
     </div>
@@ -36,8 +87,9 @@
                     <div id="detail-title">节点信息</div>
                     <ul id="detail-list">
                         <li>ID：<span class="detail-data">123</span></li>
-                        <li>科研兴趣：<span class="detail-data">计算机</span></li>
-                        <li>个人主页：<span class="detail-data">www.www.com</span></li>
+                        <li>科研兴趣：<span class="detail-data" style="display: block;">0</span></li>
+                        <li>相邻节点数：<span class="detail-data">123</span></li>
+                        <li>个人主页：<span class="detail-data" style="cursor: pointer;">(点击查看)</span></li>
                     </ul>
                 </div>
             </div>
@@ -64,9 +116,9 @@
             </div>
             <div id="data-graph">
                 <div id="hot-domain">
-                    <div id="container" class="containers">热门研究领域的统计数据</div>
-                    <div id="container1"  class="containers">高校学者数的统计数据</div>
-                    <div id="container2"  class="containers">学者的影响因子的统计数据</div>
+                    <div id="container" class="containers"><p>热门研究领域的统计数据</p></div>
+                    <div id="container1"  class="containers"><p>高校学者数的统计数据</p></div>
+                    <div id="container2"  class="containers"><p>学者的影响因子的统计数据</p></div>
                 </div>
             </div>
             
@@ -80,5 +132,6 @@
 <script src="https://gw.alipayobjects.com/os/lib/antv/g2/4.1.22/dist/g2.min.js"></script>
 <script src="JS/background.js"></script>
 <script src="./JS/index.js"></script>
+<script src="./JS/checkLog.js"></script>
 
 </html>

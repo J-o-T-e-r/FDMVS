@@ -2,7 +2,7 @@ function isLegal(type,obj,icon,tip,flag){       //检测输入内容是否合法
     if(type == 0){		
         var legal = /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9]){2,10}$/i;    //邮箱格式
     }else if(type == 1){
-        var legal = /^\w{2,14}$/i;	//密码匹配
+        var legal = /^\w{6,14}$/i;	//密码匹配
     }
     var arr = new Array();
     arr = obj.value.split(" ");		//将输入的内容存进数组
@@ -209,9 +209,10 @@ window.onload = function(){
             }
             
             $.post(url,data,function(res){
-            if(res){
-                localStorage.setItem('token',res);
-                prmP[2].innerHTML = '登陆成功！';
+            if(res.length!=0){
+                sessionStorage.setItem('token',res);
+                token = res;;
+                prmP[2].innerHTML = '登陆成功！';            
             }else{
                 prmP[2].innerHTML = '用户名或密码错误，请重试！';
             }
@@ -225,6 +226,7 @@ window.onload = function(){
             prmBtn.addEventListener("click",function(){
                 prompt.style.display = "none";
                 cover.style.display = "none";
+                if(prmP[2].innerHTML == '登陆成功！')location.href = "../index.html"
             })
         }else if(!user[0].value && !pw[0].value){
             prompt.style.display = "block";
@@ -250,6 +252,7 @@ window.onload = function(){
             prmP[2].innerHTML = '';
             })
         }else{
+            prmP[2].innerHTML = "格式有误，请重新输入！";
             prompt.style.display = "block";
             prmBtn.addEventListener("click",function(){
             prompt.style.display = "none";
@@ -287,7 +290,7 @@ window.onload = function(){
             })
         }else if(!pw[2].value){
             prompt.style.display = "block";
-            prmP[2].innerHTML = "还没有输入昵称哦！";
+            prmP[2].innerHTML = "还没有重新输入密码哦！";
             
             prmBtn.addEventListener("click",function(){
             prompt.style.display = "none";
@@ -295,7 +298,21 @@ window.onload = function(){
             prmP[2].innerHTML = '';
             })
         }
-        
+        else if(signFlag[1]==0){
+            prmP[2].innerHTML = '输入密码不一致，请重试！';
+            prompt.style.display = "block";
+            prmBtn.addEventListener("click",function(){
+                prompt.style.display = "none";
+                cover.style.display = "none";
+            })
+        }else if(tips[2].style.color = 'red'){
+            prmP[2].innerHTML = '用户名已存在，请重试！';
+            prompt.style.display = "block";
+            prmBtn.addEventListener("click",function(){
+                prompt.style.display = "none";
+                cover.style.display = "none";
+            })
+        }
         else if(signFlag[0] && signFlag[1]){
             let url = "http://112.74.37.0:5657/api-register-data";
             let data = {
@@ -303,8 +320,9 @@ window.onload = function(){
         		pwd : pw[1].value,
              }
              $.post(url,data,function(res){
+                 console.log(res);
                     if(res=="success"){
-                        prmP[2].innerHTML = '注册成功！';
+                        prmP[2].innerHTML = '注册成功！';                 
                         enLogin.click();
                     }else{
                         prmP[2].innerHTML = '注册失败，请稍后重试！';
@@ -318,31 +336,9 @@ window.onload = function(){
                 prompt.style.display = "none";
                 cover.style.display = "none";
             })
-        }else{
-            prompt.style.display = "block";
-            prmBtn.addEventListener("click",function(){
-            prompt.style.display = "none";
-            cover.style.display = "none";
-            })
         }
     }
     
     }
     
-    function post(url,data,succfn,faildfn){
-        var xhr = new XMLHttpRequest(); 
-        xhr.open("POST",url,true);  //连接服务器
-        xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-        xhr.setRequestHeader('Authorization',"application/json") //设置请求头
-        xhr.send(JSON.stringify(data)); //发送经json化处理的报文
-        xhr.onreadystatechange = function (){
-            if(xhr.readyState == 4 && xhr.status >= 200 && xhr.status <300){  //读取完成
-                succfn(xhr.responseText);
-            }  
-            else{
-                if(faildfn){    //如果有传入faildfn则执行错误时的行为
-                    faildfn(xhr.status);
-                }
-            }
-        }
-    }
+    
