@@ -1,56 +1,39 @@
 # -*- coding: utf-8 -*- 
-# @Time : 2021/7/27 8:35 
-# @Author : kzl 
-# @File : LianLU.py
-# @contact: kristinaNFQ@gmail.com
-
-"""
-
-计算一对节点的分数,
-该分数可看作为那些节点基于拓扑网络的“近似度”
-两个节点越相近，它们之间存在联系的可能性就越大
-
-Adamic Adar（AA 指标）
-AA 指标也考虑了共同邻居的度信息，但除了共同邻居，
-还根据共同邻居的节点的度给每个节点赋予一个权重，即度的对数分之一，
-然后把每个节点的所有共同邻居的权重值相加，
-其和作为该节点对的相似度值
-
-节点的度指它的邻居数
+# Time : 2021/7/29 22:38
+# Author : Kristina
+# File : CN.py
+# contact: kristinaNFQ@163.com
+# MyBlog: kristina100.github.io
+# -*- coding:UTF-8 -*-
 
 
-
-Adamic Adar：计算共同邻居的度数的对数分之一，并求和。
-
-优先连接算法：计算每个节点的度数的乘积。
-
-资源分配算法：计算共同邻居的度数分之一，并求和。
-
-共同社区算法：利用社区发现算法，检查两个节点是否处于同一个社区。
-
-
-从网络中提取拓扑结构特征，运用机器学习方法进行链路预测，比较了几种机器学习算法的预测精度。
-"""
-from scipy import sparse
 import pandas as pd
 import numpy as np
-import networkx as nx
-oo = float('inf')
+from Link_Prediction import AA, CN, cOS, HDI, HPI, Jaccard, LHN, PA, RA
+from Indicators import auc_jaccard, Accuracy
 
-# 创建无向图
-G = nx.Graph()
-_data = pd.read_csv('data/train.csv')
-data_test = pd.read_csv('data/test.csv')
-_data.dropna(axis=0, how='any', inplace=True)
-print(_data.shape[0])
+
+_data = pd.read_csv('../data/train.csv')
+data_test = pd.read_csv('../data/test.csv')
 
 
 def Data_Shape(_data):
+    """
+
+    :param _data:
+    :return:
+    """
     MaxNodeNum = 10756
     return MaxNodeNum
 
 
 def MatrixAdjacency0(MaxNodeNum, Data):
+    """
+
+    :param MaxNodeNum: 节点数总和
+    :param Data: 训练集（测试集）
+    :return: 返回邻接矩阵
+    """
     MatrixAdjacency = np.zeros([MaxNodeNum, MaxNodeNum])
     for col in range(1, Data.shape[0]):
         i = int(Data['7718'][col])
@@ -61,6 +44,12 @@ def MatrixAdjacency0(MaxNodeNum, Data):
 
 
 def MatrixAdjacency1(MaxNodeNum, Data):
+    """
+
+    :param MaxNodeNum: 节点总数
+    :param Data: 训练集（测试集）
+    :return: 返回邻接矩阵
+    """
     MatrixAdjacency = np.zeros([MaxNodeNum, MaxNodeNum])
     for col in range(1, Data.shape[0]):
         i = int(Data['7043'][col])
@@ -70,8 +59,46 @@ def MatrixAdjacency1(MaxNodeNum, Data):
 
     return MatrixAdjacency
 
-# MaxNodeNum = Data_Shape(data)
-# # 训练集的邻接矩阵
-# MatrixNear_train = MatrixAdjacency0(MaxNodeNum, data)
-# # 测试集的邻接矩阵
-# MatrixNear_test = MatrixAdjacency1(MaxNodeNum, data_test)
+
+if __name__ == '__main__':
+    MaxNodeNum = Data_Shape(_data)
+    # 训练集的邻接矩阵
+    MatrixNear_train = MatrixAdjacency0(MaxNodeNum, _data)
+    # 测试集的邻接矩阵
+    MatrixNear_test = MatrixAdjacency1(MaxNodeNum, data_test)
+    # Adamic–Adar Index
+    similar_AA = AA.AA(MatrixNear_train)
+    auc_jaccard.AUC(MatrixNear_train, MatrixNear_test, similar_AA)
+    Accuracy.prescision(MatrixNear_train, MatrixNear_test, similar_AA)
+    # Preferential Attachment
+    similar_PA = PA.PA(MatrixNear_train)
+    auc_jaccard.AUC(MatrixNear_train, MatrixNear_test, similar_PA)
+    Accuracy.prescision(MatrixNear_train, MatrixNear_test, similar_PA)
+    # Resource Allocation Index
+    similar_RA = RA.RA(MatrixNear_train)
+    auc_jaccard.AUC(MatrixNear_train, MatrixNear_test, similar_RA)
+    Accuracy.prescision(MatrixNear_train, MatrixNear_test, similar_RA)
+    # Leicht-Holme-Newman Index
+    similar_LHN = LHN.LHN(MatrixNear_train)
+    auc_jaccard.AUC(MatrixNear_train, MatrixNear_test, similar_LHN)
+    Accuracy.prescision(MatrixNear_train, MatrixNear_test, similar_LHN)
+    # Hub Depressed Index
+    similar_HDI = HDI.HDI(MatrixNear_train)
+    auc_jaccard.AUC(MatrixNear_train, MatrixNear_test, similar_HDI)
+    Accuracy.prescision(MatrixNear_train, MatrixNear_test, similar_HDI)
+    # Hub Promoted Index
+    similar_HPI = HPI.HPI(MatrixNear_train)
+    auc_jaccard.AUC(MatrixNear_train, MatrixNear_test, similar_HPI)
+    Accuracy.prescision(MatrixNear_train, MatrixNear_test, similar_HPI)
+    # Jaccard Index
+    similar_Jaccard = Jaccard.Jaccard(MatrixNear_train)
+    auc_jaccard.AUC(MatrixNear_train, MatrixNear_test, similar_Jaccard)
+    Accuracy.prescision(MatrixNear_train, MatrixNear_test, similar_Jaccard)
+    # Common neighbours
+    similar_CN = CN.CN(MatrixNear_train)
+    auc_jaccard.AUC(MatrixNear_train, MatrixNear_test, similar_CN)
+    Accuracy.prescision(MatrixNear_train, MatrixNear_test, similar_CN)
+    # cosine
+    similar_Cos = cOS.Cos(MatrixNear_train)
+    auc_jaccard.AUC(MatrixNear_train, MatrixNear_test, similar_Cos)
+    Accuracy.prescision(MatrixNear_train, MatrixNear_test, similar_Cos)

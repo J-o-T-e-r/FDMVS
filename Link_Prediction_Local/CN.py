@@ -1,21 +1,26 @@
 # -*- coding: utf-8 -*- 
-# @Time : 2021/7/28 8:29
-# @Author : kzl
-# @File : Jaccard.py
-# @contact: kristinaNFQ@gmail.com
+# Time : 2021/7/29 22:38 
+# Author : Kristina 
+# File : CN.py
+# contact: kristinaNFQ@163.com
+# MyBlog: kristina100.github.io
+# -*- coding:UTF-8 -*-
+
 
 import numpy as np
-import pandas as pd
 import time
 import json
-import LianLU
 import warnings
 warnings.filterwarnings("ignore")
 
-_data = pd.read_csv('data/train.csv')
-
 
 def CN(Matrix):
+    """
+
+    :param Matrix: 邻接矩阵
+    :return: 返回相似度矩阵
+             对预测边按照相似度大小进行排序
+    """
     StartTime = time.perf_counter()
     # 广义 jaccard 系数 两矩阵的点乘
     # 第一个矩阵中与该元素行号相同的元素与第二个矩阵与该元素列号相同的元素，两两相乘后再求和 表示A和B对应位都是1的属性的数量的矩阵
@@ -38,13 +43,12 @@ def CN(Matrix):
         List = sorted(List.items(), key=lambda item: (item[1], item[0]), reverse=True)
         All_dict[i] = List
     doc = json.dumps(All_dict)
-    fp1 = open('Json/CN_similar.json', 'w+')
+    fp1 = open('../Json/CN_similar.json', 'w+')
     fp1.write(doc)
     fp1.close()
+
     EndTime = time.perf_counter()
-    print(f"SimilarityTime: {EndTime - StartTime} s")
+    print(f"Common Neighbours SimilarityTime: {EndTime - StartTime} s")
     return Matrix_similarity
 
-a = LianLU.Data_Shape(_data)
-b = LianLU.MatrixAdjacency0(a, _data)
-CN(b)
+

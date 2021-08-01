@@ -1,33 +1,38 @@
 # -*- coding: utf-8 -*- 
-# @Time : 2021/7/28 14:23 
-# @Author : kzl 
-# @File : RA.py
-# @contact: kristinaNFQ@gmail.com
+# Time : 2021/7/29 22:38
+# Author : Kristina
+# File : CN.py
+# contact: kristinaNFQ@163.com
+# MyBlog: kristina100.github.io
+# -*- coding:UTF-8 -*-
+
 import numpy as np
-import pandas as pd
 import time
 import json
-import LianLU
 import warnings
 
 warnings.filterwarnings("ignore")
 
-_data = pd.read_csv('data/train.csv')
-
 # 就是比aa少了个log
-def RA(MatrixAdjacency_Train):
+def RA(Matrix):
+    """
+
+    :param Matrix: 邻接矩阵
+    :return: 返回相似度矩阵
+             对预测边按照相似度大小进行排序
+    """
     similarity_StartTime = time.perf_counter()
     # (10756, )
-    RA_Train = sum(MatrixAdjacency_Train)
+    RA_Train = sum(Matrix)
     # (10756, 1)
     RA_Train.shape = (RA_Train.shape[0], 1)
     #  出现 nan 值
-    MatrixAdjacency_Train = MatrixAdjacency_Train / RA_Train
-    # 使用0代替数组x中的nan元素，使用有限的数字代替inf元素
+    MatrixAdjacency_Train = Matrix / RA_Train
+    # 使用0代替数组x中的nan元素，使用有限的数字代替 inf 元素
 
-    MatrixAdjacency_Train = np.nan_to_num(MatrixAdjacency_Train)
+    Matrix = np.nan_to_num(Matrix)
     # 求出了每个点在图中度数的导数的矩阵，然后再与原始数据相乘，得到id之间相乘后得到矩阵
-    Matrix_similarity = np.dot(MatrixAdjacency_Train, MatrixAdjacency_Train)
+    Matrix_similarity = np.dot(Matrix, Matrix)
 
     All_dict = {}
     for i in range(1, Matrix_similarity.shape[0]):
@@ -46,14 +51,10 @@ def RA(MatrixAdjacency_Train):
         List = sorted(List.items(), key=lambda item: (item[1], item[0]), reverse=True)
         All_dict[i] = List
     doc = json.dumps(All_dict)
-    fp1 = open('Json/RA_similar.json', 'w+')
+    fp1 = open('../Json/RA_similar.json', 'w+')
     fp1.write(doc)
     fp1.close()
     similarity_EndTime = time.perf_counter()
-    print(f"SimilarityTime: {similarity_EndTime - similarity_StartTime} s")
+    print(f" Resource Allocation Index SimilarityTime: {similarity_EndTime - similarity_StartTime} s")
     return Matrix_similarity
 
-
-a = LianLU.Data_Shape(_data)
-b = LianLU.MatrixAdjacency0(a, _data)
-RA(b)

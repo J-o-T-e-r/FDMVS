@@ -1,25 +1,31 @@
-# -*- coding: utf-8 -*- 
-# @Time : 2021/7/28 15:06 
-# @Author : kzl 
-# @File : PA.py
-# @contact: kristinaNFQ@gmail.com
+# -*- coding: utf-8 -*-
+# Time : 2021/7/29 22:38
+# Author : Kristina
+# File : CN.py
+# contact: kristinaNFQ@163.com
+# MyBlog: kristina100.github.io
+# -*- coding:UTF-8 -*-
+
 
 
 import numpy as np
-import pandas as pd
 import time
 import json
-import LianLU
 import warnings
+
 warnings.filterwarnings("ignore")
 
-_data = pd.read_csv('data/train.csv')
 
+def PA(Matrix):
+    """
 
-def PA(MatrixAdjacency_Train):
-    similarity_StartTime = time.perf_counter()
+    :param Matrix: 邻接矩阵
+    :return: 返回相似度矩阵
+             对预测边按照相似度大小进行排序
+    """
+    StartTime = time.perf_counter()
 
-    deg_row = sum(MatrixAdjacency_Train)
+    deg_row = sum(Matrix)
     deg_row.shape = (deg_row.shape[0], 1)
     deg_row_T = deg_row.T
     # k_x*k_y
@@ -46,12 +52,8 @@ def PA(MatrixAdjacency_Train):
     fp1.write(doc)
     fp1.close()
 
-    similarity_EndTime = time.perf_counter()
+    EndTime = time.perf_counter()
 
-    print(f"SimilarityTime: {similarity_EndTime - similarity_StartTime} s")
+    print(f"Preferential Attachment SimilarityTime: {EndTime - StartTime} s")
     return Matrix_similarity
 
-
-a = LianLU.Data_Shape(_data)
-b = LianLU.MatrixAdjacency0(a, _data)
-PA(b)

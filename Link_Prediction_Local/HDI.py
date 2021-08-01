@@ -1,21 +1,26 @@
 # -*- coding: utf-8 -*- 
-# @Time : 2021/7/28 9:34
-# @Author : kzl
-# @File : HPI.py
-# @contact: kristinaNFQ@gmail.com
+# Time : 2021/7/29 22:38
+# Author : Kristina
+# File : CN.py
+# contact: kristinaNFQ@163.com
+# MyBlog: kristina100.github.io
+# -*- coding:UTF-8 -*-
+
 import numpy as np
-import pandas as pd
 import time
 import json
-import LianLU
 import warnings
 
 warnings.filterwarnings("ignore")
 
-_data = pd.read_csv('data/train.csv')
-
 
 def HDI(Matrix):
+    """
+
+    :param Matrix: 邻接矩阵
+    :return: 返回相似度矩阵
+             对预测边按照相似度大小进行排序
+    """
     StartTime = time.perf_counter()
 
     Matrix_similarity = np.dot(Matrix, Matrix)
@@ -47,14 +52,10 @@ def HDI(Matrix):
         All_dict[i] = List
 
     doc = json.dumps(All_dict)
-    fp1 = open('Json/HDI_similar.json', 'w+')
+    fp1 = open('../Json/HDI_similar.json', 'w+')
     fp1.write(doc)
     fp1.close()
     EndTime = time.perf_counter()
-    print(f"SimilarityTime: {EndTime - StartTime} s")
+    print(f"Hub Depressed Index SimilarityTime: {EndTime - StartTime} s")
     return Matrix_similarity
 
-
-a = LianLU.Data_Shape(_data)
-b = LianLU.MatrixAdjacency0(a, _data)
-HDI(b)

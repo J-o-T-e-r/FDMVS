@@ -14,7 +14,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 
-def LHN(Matrix):
+def Cos(Matrix):
     """
 
     :param Matrix: 邻接矩阵
@@ -22,14 +22,17 @@ def LHN(Matrix):
              对预测边按照相似度大小进行排序
     """
     StartTime = time.perf_counter()
-    Matrix_similarity = np.dot(Matrix, Matrix)
-    deg_row = sum(Matrix)
-    deg_row.shape = (deg_row.shape[0], 1)
-    deg_row_T = deg_row.T
 
-    temp = np.dot(deg_row, deg_row_T)
+    Matrix_D = np.diag(sum(Matrix))
+    Matrix_Laplacian = Matrix_D - Matrix
+    INV_Matrix_Laplacian = np.linalg.pinv(Matrix_Laplacian)
 
-    Matrix_similarity = Matrix_similarity / temp
+    Array_Diag = np.diag(INV_Matrix_Laplacian)
+    Matrix_ONE = np.ones([Matrix.shape[0], Matrix.shape[0]])
+    Matrix_Diag = Array_Diag * Matrix_ONE
+
+    Matrix_similarity = INV_Matrix_Laplacian / ((Matrix_Diag * Matrix_Diag.T) ** 0.5)
+    Matrix_similarity = np.nan_to_num(Matrix_similarity)
 
     All_dict = {}
     for i in range(1, Matrix_similarity.shape[0]):
@@ -43,18 +46,14 @@ def LHN(Matrix):
                     List[j] = similarList[j]
             else:
                 continue
-        # 用字典进行排序
-        # 先转换为可迭代对象，也就是转化为元组，然后确定，元组的第几个元素进行比较
-        List = sorted(List.items(), key=lambda item: (item[1], item[0]), reverse=True)
+        List = sorted(List.items(), key=lambda item:item[1])
         All_dict[i] = List
-
     doc = json.dumps(All_dict)
-    fp1 = open('../Json/LHN_similar.json', 'w+')
+    fp1 = open('../Json/Cos_similar.json', 'w+')
     fp1.write(doc)
     fp1.close()
 
     EndTime = time.perf_counter()
-
-    print(f"Leicht-Holme-Newman Index SimilarityTime: {EndTime - StartTime} s")
+    print(f"Cosine SimilarityTime: {EndTime - StartTime}")
     return Matrix_similarity
 
