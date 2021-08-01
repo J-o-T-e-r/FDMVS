@@ -1,0 +1,231 @@
+2021/08/01 11:15:52 - sql_log - ERROR     - main.py  : 222 line - Traceback (most recent call last):
+  File "C:\Users\Horac\Desktop\FDMVS\main.py", line 218, in id_data
+    cur.execute(sql_f, _id)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\cursors.py", line 148, in execute
+    result = self._query(query)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\cursors.py", line 310, in _query
+    conn.query(q)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 548, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 775, in _read_query_result
+    result.read()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 1156, in read
+    first_packet = self.connection._read_packet()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 725, in _read_packet
+    packet.raise_for_error()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\protocol.py", line 221, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\err.py", line 143, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.ProgrammingError: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '%s' at line 1")
+
+2021/08/01 11:18:28 - sql_log - ERROR     - main.py  : 222 line - Traceback (most recent call last):
+  File "C:\Users\Horac\Desktop\FDMVS\main.py", line 218, in id_data
+    cur.execute(sql_f, _id)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\cursors.py", line 148, in execute
+    result = self._query(query)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\cursors.py", line 310, in _query
+    conn.query(q)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 548, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 775, in _read_query_result
+    result.read()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 1156, in read
+    first_packet = self.connection._read_packet()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 725, in _read_packet
+    packet.raise_for_error()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\protocol.py", line 221, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\err.py", line 143, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.ProgrammingError: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '%s' at line 1")
+
+2021/08/01 11:23:21 - sql_log - ERROR     - main.py  : 222 line - Traceback (most recent call last):
+  File "C:\Users\Horac\Desktop\FDMVS\main.py", line 218, in id_data
+    cur.execute(sql_f, _id)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\cursors.py", line 148, in execute
+    result = self._query(query)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\cursors.py", line 310, in _query
+    conn.query(q)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 548, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 775, in _read_query_result
+    result.read()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 1156, in read
+    first_packet = self.connection._read_packet()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 725, in _read_packet
+    packet.raise_for_error()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\protocol.py", line 221, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\err.py", line 143, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.ProgrammingError: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '%s' at line 1")
+
+2021/08/01 11:45:21 - sql_log - ERROR     - main.py  : 222 line - Traceback (most recent call last):
+  File "C:\Users\Horac\Desktop\FDMVS\main.py", line 218, in id_data
+    cur.execute(sql_f, _id)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\cursors.py", line 148, in execute
+    result = self._query(query)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\cursors.py", line 310, in _query
+    conn.query(q)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 548, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 775, in _read_query_result
+    result.read()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 1156, in read
+    first_packet = self.connection._read_packet()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 725, in _read_packet
+    packet.raise_for_error()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\protocol.py", line 221, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\err.py", line 143, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.ProgrammingError: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '%s' at line 1")
+
+2021/08/01 11:50:41 - sql_log - ERROR     - main.py  : 222 line - Traceback (most recent call last):
+  File "C:\Users\Horac\Desktop\FDMVS\main.py", line 218, in id_data
+    cur.execute(sql_f, _id)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\cursors.py", line 148, in execute
+    result = self._query(query)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\cursors.py", line 310, in _query
+    conn.query(q)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 548, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 775, in _read_query_result
+    result.read()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 1156, in read
+    first_packet = self.connection._read_packet()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 725, in _read_packet
+    packet.raise_for_error()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\protocol.py", line 221, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\err.py", line 143, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.ProgrammingError: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '%s' at line 1")
+
+2021/08/01 11:56:31 - sql_log - ERROR     - main.py  : 222 line - Traceback (most recent call last):
+  File "C:\Users\Horac\Desktop\FDMVS\main.py", line 218, in id_data
+    cur.execute(sql_f, _id)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\cursors.py", line 148, in execute
+    result = self._query(query)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\cursors.py", line 310, in _query
+    conn.query(q)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 548, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 775, in _read_query_result
+    result.read()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 1156, in read
+    first_packet = self.connection._read_packet()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 725, in _read_packet
+    packet.raise_for_error()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\protocol.py", line 221, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\err.py", line 143, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.ProgrammingError: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '%s' at line 1")
+
+2021/08/01 11:57:28 - sql_log - ERROR     - main.py  : 223 line - Traceback (most recent call last):
+  File "C:\Users\Horac\Desktop\FDMVS\main.py", line 219, in id_data
+    cur.execute(sql_f, _id)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\cursors.py", line 148, in execute
+    result = self._query(query)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\cursors.py", line 310, in _query
+    conn.query(q)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 548, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 775, in _read_query_result
+    result.read()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 1156, in read
+    first_packet = self.connection._read_packet()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 725, in _read_packet
+    packet.raise_for_error()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\protocol.py", line 221, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\err.py", line 143, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.ProgrammingError: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '%s' at line 1")
+
+2021/08/01 12:00:39 - sql_log - ERROR     - main.py  : 123 line - Traceback (most recent call last):
+  File "C:\Users\Horac\Desktop\FDMVS\main.py", line 119, in login
+    cur.execute(sql_f1, username)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\cursors.py", line 148, in execute
+    result = self._query(query)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\cursors.py", line 310, in _query
+    conn.query(q)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 548, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 775, in _read_query_result
+    result.read()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 1156, in read
+    first_packet = self.connection._read_packet()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 725, in _read_packet
+    packet.raise_for_error()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\protocol.py", line 221, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\err.py", line 143, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.ProgrammingError: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '%s' at line 1")
+
+2021/08/01 12:01:28 - sql_log - ERROR     - main.py  : 123 line - Traceback (most recent call last):
+  File "C:\Users\Horac\Desktop\FDMVS\main.py", line 119, in login
+    cur.execute(sql_f1, username)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\cursors.py", line 148, in execute
+    result = self._query(query)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\cursors.py", line 310, in _query
+    conn.query(q)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 548, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 775, in _read_query_result
+    result.read()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 1156, in read
+    first_packet = self.connection._read_packet()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 725, in _read_packet
+    packet.raise_for_error()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\protocol.py", line 221, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\err.py", line 143, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.ProgrammingError: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '%s' at line 1")
+
+2021/08/01 12:02:01 - sql_log - ERROR     - main.py  : 123 line - Traceback (most recent call last):
+  File "C:\Users\Horac\Desktop\FDMVS\main.py", line 119, in login
+    sql_f1 = "SELECT * FROM user WHERE username = %s"
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\cursors.py", line 148, in execute
+    result = self._query(query)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\cursors.py", line 310, in _query
+    conn.query(q)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 548, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 775, in _read_query_result
+    result.read()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 1156, in read
+    first_packet = self.connection._read_packet()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 725, in _read_packet
+    packet.raise_for_error()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\protocol.py", line 221, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\err.py", line 143, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.ProgrammingError: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '%s' at line 1")
+
+2021/08/01 12:02:07 - sql_log - ERROR     - main.py  : 125 line - Traceback (most recent call last):
+  File "C:\Users\Horac\Desktop\FDMVS\main.py", line 121, in login
+    cur.execute(sql_f1, username)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\cursors.py", line 148, in execute
+    result = self._query(query)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\cursors.py", line 310, in _query
+    conn.query(q)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 548, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 775, in _read_query_result
+    result.read()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 1156, in read
+    first_packet = self.connection._read_packet()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\connections.py", line 725, in _read_packet
+    packet.raise_for_error()
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\protocol.py", line 221, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "F:\Anaconda3\envs\background\lib\site-packages\pymysql\err.py", line 143, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.ProgrammingError: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '%s' at line 1")
+
