@@ -76,7 +76,7 @@ const getDetail = function(id){
     detailData[1].innerHTML = eval(data.interest).join(',');
     relateData[0].innerHTML = data['ori-num'];
     relateData[1].innerHTML = data['predict-num'];
-    getExistData();
+    getExistData(id);
   })
 }
 function refreshDragedNodePosition(e) {
@@ -448,10 +448,10 @@ const tooltip2 = new G6.Tooltip({
         graphData1.edges.push(CreateEdge(id,n));
       }
       createGraph1();
-      getPredictData();
+      getPredictData(id);
     })
   }
-  const getPredictData = function(){
+  const getPredictData = function(id){
     let url = 'http://112.74.37.0:5657/'+id+'/predict-connections';
     $.get(url,(res)=>{
       let data = eval(JSON.parse(res));

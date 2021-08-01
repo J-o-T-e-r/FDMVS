@@ -74,22 +74,22 @@ modifyBtn.onclick = ()=>{
 
 const checkLog = ()=>{
   let url = urlRoot + '/api-login-verify';
-    /* if(!sessionStorage.token){
+    if(!sessionStorage.token){
         alert('请先登录再进行此操作！');
         location.href = '../html/log-reg.html';
-    } */
+    }
   let data = {
     token:sessionStorage.token,
     username:'asd'
   }
   userDetail[0].innerHTML ='asd'
   $.post(url,data,(res)=>{
-      console.log(res);
+
     if(!$.isEmptyObject(res)){
         let dataRes = JSON.parse(res);
-        console.log(dataRes);
         logedBox.style.display = "block";
         unlogedBox.style.display = "none";
+        console.log(username);
         username.innerHTML = dataRes.username;
         if(eval(dataRes.interest)!=null && dataRes.age!=null && dataRes.workplace!=null){
             userDetail[0].innerHTML = eval(dataRes.interest).join(',');

@@ -231,7 +231,7 @@ window.onload = function(){
             prmBtn.addEventListener("click",function(){
                 prompt.style.display = "none";
                 cover.style.display = "none";
-                if(prmP[2].innerHTML = '登陆成功！')location.href = 'http://112.74.37.0:5657/';   
+                if(prmP[2].innerHTML = '登陆成功！')location.href = '../index.html';   
             })
         }else if(!user[0].value && !pw[0].value){
             prompt.style.display = "block";
