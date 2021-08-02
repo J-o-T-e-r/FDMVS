@@ -28,14 +28,62 @@ window.onload = async function() {
   let detail = document.getElementsByClassName('detail-data');
   let token = sessionStorage.getItem('token');
   let userBtn = document.getElementsByClassName('user-btn');
+  let search = document.getElementById('search');
+  let usernameSes = sessionStorage.getItem('username');
+let searchBtn = document.getElementById('search-btn');
+searchBtn.onclick = ()=>{
+
+  $.post(urlRoot+'api-login-verify',(res)=>{  
+        
+      if($.isEmptyObject(res)){
+          window.open('html/scholar.html?'+search.value);
+      }   
+      else{
+          alert('请先登录再进行此操作！');
+          location.href = 'html/log-reg.html'
+      }
+  })
+ 
+
+}
+userBtn[1].onclick = ()=>{
+  sessionStorage.removeItem('token');
+  sessionStorage.removeItem('username');
+  location.href = 'html/log-reg.html';
+}
   
-  userBtn[1].onclick = ()=>{
-    sessionStorage.removeItem('token');
-    location.href = 'html/log-reg.html';
+
+  const checkLog = ()=>{
+    let url = scholarUrl + '/api-login-verify';
+    let data = {
+      token:token,
+      username:usernameSes
+    }
+    $.post(url,data,(res)=>{
+    
+      if(!$.isEmptyObject(res)){
+          let dataRes = JSON.parse(res);
+          logedBox.style.display = "block";
+          unlogedBox.style.display = "none";
+          username.innerHTML = dataRes.username;
+          console.log(dataRes);
+          if(dataRes.age!=null && dataRes.workplace!=null){
+              
+              if(dataRes.interest !== null)userDetail[0].innerHTML = eval(dataRes.interest).join(',');
+              userDetail[1].innerHTML = dataRes.age;
+              userDetail[2].innerHTML = dataRes.workplace;
+              inputBox[0].value = userDetail[1].innerHTML;
+              inputBox[1].value = userDetail[2].innerHTML;
+          }
+      }else{
+          unlogedBox.style.display = "block";
+          logedBox.style.display = "none";
+        
+      }   
+      
+    })
   }
-  
-
-
+  checkLog();
   for(let x in fourData){
     staNums[num++].innerHTML = fourData[x]
   }
@@ -96,19 +144,12 @@ window.onload = async function() {
           }       
         }
         for(let k = 0;k<connection.length;k++){
-          /* console.log(graphData.nodes.includes(connection[k]));
-          console.log(graphData.nodes.includes(data[j].id));
-          if(!graphData.nodes.includes(connection[k])){
-            console.log(connection[k],JSON.stringify(data[j].id));
-            graphData.nodes.push(connection[k]+'');
 
-          }else if(!graphData.nodes.includes(JSON.stringify(data[j].id))){
-
-            graphData.nodes.push(JSON.stringify(data[j].id));
-
-          } */
+          if(connection[k]==6414 || connection[k]==6645){
+            continue;
+          }
           let edge = {
-            source:JSON.stringify(data[j].id),
+            source:JSON.stringify(data[i].id),
             target:connection[k]+''
           }
           graphData.edges.push(edge);

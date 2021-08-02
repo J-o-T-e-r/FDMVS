@@ -215,6 +215,7 @@ window.onload = function(){
             $.post(url,data,function(res){
             if(res.length!=0){
                 sessionStorage.setItem('token',res);
+                sessionStorage.setItem('username',user[0].value);
                 token = res;;
                 prmP[2].innerHTML = '登陆成功！';   
                       
@@ -231,7 +232,7 @@ window.onload = function(){
             prmBtn.addEventListener("click",function(){
                 prompt.style.display = "none";
                 cover.style.display = "none";
-                if(prmP[2].innerHTML = '登陆成功！')location.href = '../index.html';   
+                if(sessionStorage.getItem('token'))location.href = '../index.html';   
             })
         }else if(!user[0].value && !pw[0].value){
             prompt.style.display = "block";
@@ -257,6 +258,7 @@ window.onload = function(){
             prmP[2].innerHTML = '';
             })
         }else{
+            prmP[2].innerHTML = "密码还没填哦！";
             prompt.style.display = "block";
             prmBtn.addEventListener("click",function(){
             prompt.style.display = "none";
@@ -326,7 +328,10 @@ window.onload = function(){
              $.post(url,data,function(res){
                  
                     if(res=="success"){
-                        prmP[2].innerHTML = '注册成功！';                 
+                        prmP[2].innerHTML = '注册成功！';    
+                        user[1].value = '';
+                        pw[1].value = '';
+                        pw[2].value = '';             
                         enLogin.click();
                     }else{
                         prmP[2].innerHTML = '注册失败，请稍后重试！';

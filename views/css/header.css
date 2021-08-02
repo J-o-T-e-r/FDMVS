@@ -126,7 +126,6 @@ a{
     height: 50px;
     margin-top: 5px;
     width: 160px;
-    
 }
 
 #username{
@@ -288,7 +287,7 @@ a{
 	font-size: 12px;
     width: 80%;
     display: inline-block;
-	visibility: hidden;
+
 	font-weight: bold;
     margin-left: 44px;
 }
@@ -363,3 +362,4 @@ a{
 #modify:hover{
     background-color: rgb(109, 85, 190);
 }
+

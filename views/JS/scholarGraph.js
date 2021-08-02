@@ -5,17 +5,68 @@ let graphData1 = {nodes:[],edges:[]};
 let graphData2 = {nodes:[],edges:[]};
 /* let id = 'http://112.74.37.0:5657/1548/page'.split('/')[3]; */
 let id = location.href.slice(location.href.indexOf("?")+1)
-console.log(id);
+let scholarUrl = 'http://112.74.37.0:5657/';
 let btn = document.getElementsByClassName('btn');
 let graphExist = document.getElementById('graph-exist');
 let graphPredict = document.getElementById('graph-predict');
-let userbtn = document.getElementsByClassName('user-btn');
+let userbtn = document.getElementsByClassName('user-btn')
+let usernameSes = sessionStorage.getItem('username');
+let searchBtn = document.getElementById('search-btn');
+searchBtn.onclick = ()=>{
+
+  $.post(urlRoot+'api-login-verify',(res)=>{  
+        
+      if($.isEmptyObject(res)){
+          window.open('../html/scholar.html?'+search.value);
+      }   
+      else{
+          alert('请先登录再进行此操作！');
+          location.href = '../html/log-reg.html'
+      }
+  })
+ 
+
+}
+
 
 userbtn[1].onclick = ()=>{
   sessionStorage.removeItem('token');
+  sessionStorage.removeItem('username');
   location.href = '../html/log-reg.html';
 }
+const checkLog = ()=>{
+  let url = scholarUrl + '/api-login-verify';
+  let token = sessionStorage.getItem('token');
+    if(!token){
+      
+        alert('请先登录再进行此操作！');
+        location.href = '../html/log-reg.html';
+    }
+  let data = {
+    token:token,
+    username:usernameSes
+  }
+  $.post(url,data,(res)=>{
 
+    if(!$.isEmptyObject(res)){
+        let dataRes = JSON.parse(res);
+        logedBox.style.display = "block";
+        unlogedBox.style.display = "none";
+        username.innerHTML = dataRes.username;
+        if(eval(dataRes.interest)!=null && dataRes.age!=null && dataRes.workplace!=null){
+            userDetail[0].innerHTML = eval(dataRes.interest).join(',');
+            userDetail[1].innerHTML = dataRes.age;
+            userDetail[2].innerHTML = dataRes.workplace;
+        }
+    }else{
+        unlogedBox.style.display = "block";
+        logedBox.style.display = "none";
+      
+    }   
+    
+  })
+}
+checkLog();
 for(let i = 0;i<2;i++){
     btn[i].onclick = function(){
         for(let x of btn) {
@@ -279,25 +330,7 @@ const tooltip2 = new G6.Tooltip({
         alphaDecay: 0.01,
         preventOverlap: true,
         linkDistance:d=>{
-          let len = d.target.id;
-          if(len > 400 && len <800){
-            return len*0.75;
-          }else if(len<400){
-            return len*0.8;
-          }else if(len>800 && len < 1200){
-            return len*0.75*0.25;
-          }
-          else if(len>1200 &&  len < 1600){
-            return len*0.75*0.25*0.25
-          }
-          else if(len>1600 &&  len < 2000){
-            return len*0.75*0.25*0.25*0.25;
-          }
-          else if(len>2400 &&  len < 2800){
-            return len*0.75*0.25*0.25*0.25*0.25;
-          }else{
-            return 400;
-          }
+          return randomNum(100,300);
         }
       },
       width:910,
@@ -447,17 +480,22 @@ const tooltip2 = new G6.Tooltip({
         graphData1.nodes.push(CreateNode(n,'class2',eval(data[n])));
         graphData1.edges.push(CreateEdge(id,n));
       }
-      createGraph1();
       getPredictData(id);
+      createGraph1();
+     
     })
   }
   const getPredictData = function(id){
     let url = 'http://112.74.37.0:5657/'+id+'/predict-connections';
+
     $.get(url,(res)=>{
       let data = eval(JSON.parse(res));
+      console.log(data);
       for(let n in data){
         graphData2.nodes.push(CreateNode(n,'class2',eval(data[n])));
+       
         graphData2.edges.push(CreateEdge(id,n));
+        console.log(graphData2);
       }
       createGraph2();
     })

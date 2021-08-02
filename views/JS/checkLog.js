@@ -10,8 +10,7 @@ let modifyBtn = document.getElementById('modify');
 let coverBox = document.getElementById('cover');
 let inputBox = document.getElementsByClassName('text')
 let interestItem = document.getElementsByClassName('interest-item');
-let search = document.getElementById('search');
-let searchBtn = document.getElementById('search-btn');
+
 let userDetail = document.getElementsByClassName('user-data');
 let username = document.getElementById('usernameText');
 let urlRoot = 'http://112.74.37.0:5657/';
@@ -47,20 +46,33 @@ shutMod.onclick = ()=>{
 }
 
 modifyBtn.onclick = ()=>{
-    let legal1 = /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9]){2,10}$/g;
+    let legal1 = /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9]){2,16}$/g;
     let legal2 = /^((1[0-5])|[1-9])?\d$/g;
-
     interest = Array.from(new Set(interest));
     if(legal2.test(inputBox[0].value) && legal1.test(inputBox[1].value)){
-        let data = {
-            username:username.innerHTML,
-            interest:interest,
-            age:inputBox[0].value||userDetail[1].innerHTML,
-            workplace:inputBox[1].value||userDetail[2].innerHTML
+        let data;
+        if(interest.length == 0){
+            data = {
+                username:username.innerHTML,
+                age:inputBox[0].value,
+                workplace:inputBox[1].value,
+            }
+        }else{
+            data = {
+                username:username.innerHTML,
+                interest:JSON.stringify(interest),
+                age:inputBox[0].value,
+                workplace:inputBox[1].value,
+            }
         }
+        
         $.post('http://112.74.37.0:5657/api-ChangeInfo',data,(res)=>{
             if(res == 'success'){
                 alert('修改成功！');
+                userImfText[0].innerHTML = interest.join(',')||'暂无';
+                userImfText[1].innerHTML = inputBox[0].value;
+                userImfText[2].innerHTML = inputBox[1].value;
+                shutMod.click();
             }else{
                 alert('修改失败，请重试！')
             }
@@ -72,39 +84,7 @@ modifyBtn.onclick = ()=>{
     
    
 
-const checkLog = ()=>{
-  let url = urlRoot + '/api-login-verify';
-    if(!sessionStorage.token){
-        alert('请先登录再进行此操作！');
-        location.href = '../html/log-reg.html';
-    }
-  let data = {
-    token:sessionStorage.token,
-    username:'asd'
-  }
-  userDetail[0].innerHTML ='asd'
-  $.post(url,data,(res)=>{
 
-    if(!$.isEmptyObject(res)){
-        let dataRes = JSON.parse(res);
-        logedBox.style.display = "block";
-        unlogedBox.style.display = "none";
-        console.log(username);
-        username.innerHTML = dataRes.username;
-        if(eval(dataRes.interest)!=null && dataRes.age!=null && dataRes.workplace!=null){
-            userDetail[0].innerHTML = eval(dataRes.interest).join(',');
-            userDetail[1].innerHTML = dataRes.age;
-            userDetail[2].innerHTML = dataRes.workplace;
-        }
-    }else{
-        unlogedBox.style.display = "block";
-        logedBox.style.display = "none";
-      
-    }   
-    
-  })
-}
-checkLog();
 
 
 
@@ -118,19 +98,4 @@ checkLog();
 
 
 
-searchBtn.onclick = ()=>{
-
-    $.post(urlRoot+'api-login-verify',(res)=>{  
-          
-        if($.isEmptyObject(res)){
-            window.open(urlRoot+search.value+'/page');
-        }   
-        else{
-            alert('请先登录再进行此操作！');
-            location.href = '../html/log-reg.html'
-        }
-    })
-   
-
-}
 
