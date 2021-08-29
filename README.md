@@ -1,4 +1,3 @@
-# Link Prediction Local Methods
+# 图数据挖掘算法可视化系统
 
-:star: 
 
