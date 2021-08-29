@@ -1,2 +1,4 @@
-# FDMVS
-Figure_Data_Mining_Visualization_System.
+# Link Prediction Local Methods
+
+:star: 
+
