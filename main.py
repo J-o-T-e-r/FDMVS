@@ -1,14 +1,10 @@
-from flask import Flask, redirect, url_for, request, render_template, make_response
-import pymysql
+from flask import Flask, request, render_template
 import json
 import random
-import traceback
+from db.query import *
 from flask_cors import *
-from flask_mail import Mail, Message
-# from App.mail import *
 from App.token_fun import *
 from App.log_config import *
-import config
 
 
 conn = pymysql.connect(  # 连接本地数据库
@@ -21,17 +17,14 @@ conn = pymysql.connect(  # 连接本地数据库
 cur = conn.cursor()
 
 app = Flask(__name__)
-app.config.from_object(config)
-mail = Mail(app)
+# limiter = Limiter(
+#     app,
+#     key_func=get_remote_address,
+#     default_limits=["1000 per day", "100 per hour"]
+# )
+# app.config.from_object(config)
+# mail = Mail(app)
 CORS(app, supports_credentials=True)
-
-
-@app.route('/mail')
-def sendEmail():
-    msg = Message('QG中期考核云端服务器事务处理', sender='1219730837@qq.com', recipients=['Horace_01@126.com'])
-    msg.body = "服务器出现了bug！"
-    mail.send(msg)
-    return '已发送'
 
 
 @app.route("/test")
@@ -46,14 +39,14 @@ def helloWorld():
 @cross_origin()
 def index():
     user_log.info("view index.html")
-    return render_template('index.html')
+    return "index.html"
 
 
 @app.route("/login_register")
 @cross_origin()
 def login_register_page():
     user_log.info("view login and register page html")
-    return render_template('log-reg.html')
+    return "login.html"
 
 
 @app.route("/api-register-verify", methods=['POST'])
@@ -61,13 +54,8 @@ def login_register_page():
 def register_verify():
     username = request.form.get('username')  # 接受get参数
     sql_f1 = "SELECT * FROM user WHERE username = %s"
-    try:
-        cur.execute(sql_f1, username)
-        results = cur.fetchone()
-    except Exception as e:
-        msg = traceback.format_exc()
-        sql_log.error(msg)
-    if results:
+    results = sql_find(conn, cur, sql_f1, username)
+    if results is not None:
         # 代表用户重复，不能进行注册
         return 'fault'
     else:
@@ -95,37 +83,44 @@ def register_commit():
         VALUES(%s, %s, %s, %s, %s)
     """
     data = (username, pwd, interest, age, workplace)
-    try:
-        cur.execute(sql_i, data)
-        conn.commit()
-    except Exception as e:
-        msg = traceback.format_exc()
-        sql_log.error(msg)
-        conn.rollback()
-        return 'fault'
-    return 'success'
+    res = sql_modify(conn, cur, sql_i, data)
+    return res
 
 
 @app.route("/api-login", methods=['POST'])
 @cross_origin()
 def login():
+    # username = request.form.get('username')
+    # pwd = request.form.get('pwd')
+    # # 查询是否有此用户
+    # sql_f1 = "SELECT * FROM user WHERE username = %s"
+    # try:
+    #     cur.execute(sql_f1, username)
+    #     results = cur.fetchone()
+    # except Exception as e:
+    #     msg = traceback.format_exc()
+    #     sql_log.error(msg)
+    # if not results:
+    #     # 无此账号
+    #     return ''
+    # elif results[1] != pwd:
+    #     # 密码对不上
+    #     return ''
+    # else:
+    #     return generate_token(username)
     username = request.form.get('username')
     pwd = request.form.get('pwd')
     # 查询是否有此用户
     sql_f1 = "SELECT * FROM user WHERE username = %s"
-    try:
-        cur.execute(sql_f1, username)
-        results = cur.fetchone()
-    except Exception as e:
-        msg = traceback.format_exc()
-        sql_log.error(msg)
-    if not results:
+    res = sql_find(conn, cur, sql_f1, username)
+    if res is None:
         # 无此账号
         return ''
-    elif results[1] != pwd:
+    elif res[1] != pwd:
         # 密码对不上
         return ''
     else:
+        # 匹配则返回token
         return generate_token(username)
 
 
@@ -136,22 +131,16 @@ def login_verify():
     username = request.form.get('username')
     # 查询是否有此用户
     sql_f = "SELECT * FROM user WHERE username = %s"
-    try:
-        cur.execute(sql_f, username)
-        result = cur.fetchone()
-    except Exception as e:
-        msg = traceback.format_exc()
-        sql_log.error(msg)
-        return dict()
-    if not result:
+    res = sql_find(conn, cur, sql_f, username)
+    if res is None:
         # 无此账号
         return dict()
     else:
-        # 有此账号，开始验证
+        # 有此账号，开始验证token（是否为此用户，登录时限是否到了）
         if certify_token(username, web_token):
-            interest = result[2]
-            age = result[3]
-            workplace = result[4]
+            interest = res[2]
+            age = res[3]
+            workplace = res[4]
             data = {'username': username, 'interest': interest, 'age': age, 'workplace': workplace}
             return json.dumps(data, ensure_ascii=False)
         else:
@@ -162,23 +151,15 @@ def login_verify():
 @cross_origin()
 def ChangeInfo():
     username = request.form.get('username')
-    pwd = request.form.get('pwd')
     interest = request.form.get('interest')
     age = request.form.get('age')
     workplace = request.form.get('workplace')
     sql_update = """
-        UPDATE user SET pwd=%s , interest=%s, age=%s, workplace=%s WHERE username=%s
+        UPDATE user SET interest=%s, age=%s, workplace=%s WHERE username=%s
     """
-    data = (pwd, interest, age, workplace, username)
-    try:
-        cur.execute(sql_update, data)
-        conn.commit()
-    except Exception as e:
-        msg = traceback.format_exc()
-        sql_log.error(msg)
-        conn.rollback()
-        return 'fault'
-    return 'success'
+    data = (interest, age, workplace, username)
+    res = sql_modify(conn,cur, sql_update, data)
+    return res
 
 
 @app.route("/api-shown_nodes-data", methods=['GET'])
@@ -189,12 +170,7 @@ def shown_nodes():
     sql_f = "SELECT * FROM NodeInfo WHERE id = %s"
     data = []
     for connected_node in connected_nodes:
-        try:
-            cur.execute(sql_f, connected_node)
-            result = cur.fetchone()
-        except Exception as e:
-            msg = traceback.format_exc()
-            sql_log.error(msg)
+        result = sql_f(conn, cur, sql_f, connected_node)
         connection = result[-1]
         neighbour = result[1]
         if neighbour > 70:
@@ -212,22 +188,15 @@ def shown_nodes():
 def id_data():
     _id = request.form.get('id')
     sql_f = "SELECT * FROM NodeInfo WHERE id = %s"
-    try:
-        cur.execute(sql_f, _id)
-        results = cur.fetchone()
+    results = sql_find(conn, cur, sql_f, _id)
+    data = dict()
+    if results is not None:
         interest = results[2]
         neighbour = results[1]
         data = {"interest": interest, "neighbour": neighbour}
-        return json.dumps(data, ensure_ascii=False)
-    except Exception as e:
-        msg = traceback.format_exc()
-        sql_log.error(msg)
-        return redirect(url_for('sendEmail'))
+    return data
 
 
-
-@app.route("/overview-data", methods=['GET'])
-@cross_origin()
 def overview_data():
     node_num = 10755
     edge_num = 168540
@@ -235,62 +204,61 @@ def overview_data():
     connected_component = 164
     data = {"node_num": node_num, "edge_num": edge_num, "net_density": net_density,
             "connected_component": connected_component}
-    return json.dumps(data, ensure_ascii=False)
+    return data
 
 
-@app.route("/hot_domain", methods=['GET'])
-@cross_origin()
 def hot_domain():
     interests_rank = json.load(open('data/interests_rank.json', encoding='gbk'))
     top_num = 10
     top_rank = {list(interests_rank.keys())[i]: list(interests_rank.values())[i] for i in range(top_num)}
-    return json.dumps(top_rank, ensure_ascii=False)
+    return top_rank
 
 
-@app.route("/excellent_school", methods=['GET'])
-@cross_origin()
 def excellent_school():
-    university_rank = json.load(open('data/university.json', encoding="gbk"))
+    university_rank = json.load(open('data/university.json', encoding='gbk'))
     top_num = 10
     total_num = sum(list(university_rank.values())[:top_num])
     schools = list(university_rank.keys())[:top_num]
     nums = list(university_rank.values())[:top_num]
     percentages = [round(i / total_num, 2) for i in list(university_rank.values())[:top_num]]
     top_rank = {schools[i]: [nums[i], percentages[i]] for i in range(top_num)}
-    return json.dumps(top_rank, ensure_ascii=False)
+    return top_rank
 
 
-@app.route("/excellent_scholar", methods=['GET'])
-@cross_origin()
 def excellent_scholar():
     # 利用了pagerank的数据来绘制气泡图
     bubble_data = json.load(open('data/bubble_diagram.json', encoding="gbk"))
-    return str(bubble_data)
+    return bubble_data
 
 
-@app.route("/<postID>/page", methods=['GET'])
-@cross_origin()
-def personal_page(postID):
-    if not isinstance(postID, str):
-        return "请传输正确的节点值"
-    if int(postID) < 1 or int(postID) > 10755:
-        return "请输入1到10755的节点"
-    user_log.info('view ' + str(postID) + ' personal page')
-    return '这是节点' + str(postID) + '的个人节点'
-    return render_template("scholar.html", id=postID)
+@app.route("/api-index_graph_data", methods=['GET'])
+def index_graph_data():
+    all_data = dict()
+    all_data.update(overview_data())
+    all_data.update(hot_domain())
+    all_data.update(excellent_school())
+    all_data.update(excellent_scholar())
+    return json.dumps(all_data, ensure_ascii=False)
+
+# @app.route("/<postID>/page", methods=['GET'])
+# @cross_origin()
+# def personal_page(postID):
+#     if not isinstance(postID, str):
+#         return "请传输正确的节点值"
+#     if int(postID) < 1 or int(postID) > 10755:
+#         return "请输入1到10755的节点"
+#     user_log.info('view ' + str(postID) + ' personal page')
+#     # return '这是节点' + str(postID) + '的个人节点'
+#     return render_template("scholar.html", id=postID)
 
 
 @app.route("/<postID>/root-data", methods=['GET'])
 @cross_origin()
 def root_data(postID):
-    if not isinstance(postID, str):
-        return "请传输正确的节点值"
-    if int(postID) < 1 or int(postID) > 10755:
-        return "请输入1到10755的节点"
     sql_f = "SELECT * FROM NodeInfo WHERE id = %s"
-    try:
-        cur.execute(sql_f, postID)
-        results = cur.fetchone()
+    results = sql_find(conn, cur, sql_f, postID)
+    data = dict()
+    if results is not None:
         interest = results[2]
         ori_num = results[1]
         predict_connection = list(json.load(open('data/AA_similar_.json', encoding='gbk'))[str(postID)])
@@ -299,12 +267,8 @@ def root_data(postID):
         data = {"id": postID, "interest": interest, "ori-connection": ori_connection,
                 "predict-connection": predict_connection,
                 "ori-num": ori_num, "predict-num": predict_num}
-        return json.dumps(data, ensure_ascii=False)
-    except Exception as e:
-        msg = traceback.format_exc()
-        sql_log.error(msg)
-        return dict()
-
+        data = json.dumps(data, ensure_ascii=False)
+    return data
 
 
 @app.route("/<postID>/ori-connections", methods=['GET'])
@@ -315,25 +279,14 @@ def ori_connections(postID):
     if int(postID) < 1 or int(postID) > 10755:
         return "请输入1到10755的节点"
     sql_f = "SELECT * FROM NodeInfo WHERE id = %s"
-    try:
-        cur.execute(sql_f, postID)
-        results = cur.fetchone()
-    except Exception as e:
-        msg = traceback.format_exc()
-        sql_log.error(msg)
-        return dict()
-    connection_node = eval(results[-1])[int(postID)]  # 有关系的节点列表
+    results = sql_find(conn, cur, sql_f, postID)
     data = dict()  # 建立一个空字典存放数据
-    for node_id in connection_node:
-        try:
-            cur.execute(sql_f, node_id)
-            result = cur.fetchone()
-        except Exception as e:
-            msg = traceback.format_exc()
-            sql_log.error(msg)
-        node_interest = result[2]
-        data.setdefault(node_id, node_interest)
-
+    if results is not None:
+        connection_node = eval(results[-1])[int(postID)]  # 有关系的节点列表
+        for node_id in connection_node:
+            mid = sql_find(conn, cur, sql_f, node_id)
+            node_interest = mid[2]
+            data.setdefault(node_id, node_interest)
     return json.dumps(data, ensure_ascii=False)
 
 
@@ -348,17 +301,11 @@ def predict_connections(postID):
     data = dict()
     for pre_node in pre_nodes:
         sql_f = "SELECT * FROM NodeInfo WHERE id = %s"
-        try:
-            cur.execute(sql_f, pre_node)
-            results = cur.fetchone()
-            interest = results[2]
+        res = sql_find(conn, cur, sql_f, pre_node)
+        if res is not None:
+            interest = res[2]
             data.setdefault(pre_node, interest)
-            return json.dumps(data, ensure_ascii=False)
-        except Exception as e:
-            msg = traceback.format_exc()
-            sql_log.error(msg)
-            return dict()
-
+    return json.dumps(data, ensure_ascii=False)
 
 
 if __name__ == '__main__':

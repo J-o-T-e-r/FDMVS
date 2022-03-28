@@ -8,8 +8,9 @@ conn = pymysql.connect(  # 连接本地数据库
             charset="utf8"
         )
 cur = conn.cursor()
-# cur.execute("create database background character set utf8;")  # 创建一个名为background的数据库
+cur.execute("create database background character set utf8;")  # 创建一个名为background的数据库
 cur.execute("use background;")  # 使用表
+
 
 # 创建PersonalInfo表
 sql_c1 = """
@@ -27,6 +28,7 @@ except Exception as e:
     # 发生错误则回滚
     conn.rollback()
 
+# 创建一个user表
 sql_c2 = """
     CREATE TABLE user(
     username VARCHAR(100),
